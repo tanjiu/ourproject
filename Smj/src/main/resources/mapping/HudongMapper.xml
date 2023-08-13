@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.HudongMapper">
+  <resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.javabean.Hudong">
+    <id column="hudong_id" jdbcType="INTEGER" property="hudongId" />
+    <result column="time" jdbcType="DATE" property="time" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="shichang" jdbcType="INTEGER" property="shichang" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    hudong_id, time, content, shichang
+  </sql>
+  <select id="selectByExample" parameterType="com.i1314i.ourproject.po.javabean.HudongExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from hudong
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hudong
+    where hudong_id = #{hudongId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hudong
+    where hudong_id = #{hudongId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.i1314i.ourproject.po.javabean.HudongExample">
+    delete from hudong
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.i1314i.ourproject.po.javabean.Hudong">
+    insert into hudong (hudong_id, time, content, 
+      shichang)
+    values (#{hudongId,jdbcType=INTEGER}, #{time,jdbcType=DATE}, #{content,jdbcType=VARCHAR}, 
+      #{shichang,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.i1314i.ourproject.po.javabean.Hudong">
+    insert into hudong
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hudongId != null">
+        hudong_id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="shichang != null">
+        shichang,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hudongId != null">
+        #{hudongId,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=DATE},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="shichang != null">
+        #{shichang,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.i1314i.ourproject.po.javabean.HudongExample" resultType="java.lang.Long">
+    select count(*) from hudong
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hudong
+    <set>
+      <if test="record.hudongId != null">
+        hudong_id = #{record.hudongId,jdbcType=INTEGER},
+      </if>
+      <if test="record.time != null">
+        time = #{record.time,jdbcType=DATE},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shichang != null">
+        shichang = #{record.shichang,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hudong
+    set hudong_id = #{record.hudongId,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=DATE},
+      content = #{record.content,jdbcType=VARCHAR},
+      shichang = #{record.shichang,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.i1314i.ourproject.po.javabean.Hudong">
+    update hudong
+    <set>
+      <if test="time != null">
+        time = #{time,jdbcType=DATE},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="shichang != null">
+        shichang = #{shichang,jdbcType=INTEGER},
+      </if>
+    </set>
+    where hudong_id = #{hudongId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.i1314i.ourproject.po.javabean.Hudong">
+    update hudong
+    set time = #{time,jdbcType=DATE},
+      content = #{content,jdbcType=VARCHAR},
+      shichang = #{shichang,jdbcType=INTEGER}
+    where hudong_id = #{hudongId,jdbcType=INTEGER}
+  </update>
+</mapper>

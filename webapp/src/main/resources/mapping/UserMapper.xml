@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.UserMapper">
+
+	<resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.User">
+		<id column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="role" jdbcType="VARCHAR" property="role" />
+		<result column="salt" jdbcType="VARCHAR" property="salt" />
+		<result column="sex" jdbcType="INTEGER" property="sex" />
+		<result column="headimgurl" jdbcType="VARCHAR" property="headImgUrl" />
+		<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+		<result column="role" jdbcType="VARCHAR" property="role" />
+		<result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+
+		<result column="department" jdbcType="VARCHAR" property="department" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+
+		<result column="create_time" jdbcType="DATE" property="createTime" />
+		<result column="update_time" jdbcType="DATE" property="updateTime" />
+		<result column="join_time" jdbcType="DATE" property="joinTime" />
+	</resultMap>
+
+	<!--user表 -->
+	<sql id="userTableName">
+		sys_user
+	</sql>
+
+	<sql id="departmentTableName">
+		sys_department
+	</sql>
+
+	<select id="selectUserByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT  * FROM <include refid="userTableName"></include>
+		WHERE username=#{username}
+	</select>
+
+	<insert id="insertUser" parameterType="com.i1314i.ourproject.po.User">
+		INSERT  INTO <include refid="userTableName"></include>
+		(user_id,username,password,salt
+			<if test="nickName!=null">
+				,nick_name
+			</if>
+			<if test="headImgUrl!=null">
+				,headimgurl
+			</if>
+			<if test="telephone!=null">
+				,telephone
+			</if>
+			<if test="sex!=null">
+				,sex
+			</if>
+		,department
+		,create_time, update_time,join_time
+		)
+		VALUES (#{userId},#{username},#{password},#{salt}
+			<if test="nickName!=null">
+				,#{nickName}
+			</if>
+			<if test="headImgUrl!=null">
+				,#{headImgUrl}
+			</if>
+			<if test="telephone!=null">
+				,#{telephone}
+			</if>
+			<if test="sex!=null">
+				,#{sex}
+			</if>
+			,#{department}
+		,#{createTime}, #{updateTime},#{joinTime}
+		)
+	</insert>
+
+	<select id="findUserById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	SELECT  * FROM <include refid="userTableName"></include>
+	WHERE user_id=#{userId}
+	</select>
+
+	<select id="findUserListByDepartmentId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT  * FROM <include refid="userTableName"></include>
+		WHERE department=#{department}
+	</select>
+
+
+	<select id="findLisUsersPage" parameterType="com.i1314i.ourproject.po.pageHelper.PageBean" resultMap="BaseResultMap">
+		SELECT * from  <include refid="userTableName"/>
+
+		WHERE 1=1
+		<if test="name!=null">
+			and username like  concat('%', #{name}, '%')
+		</if>
+		<if test="nickName!=null">
+			and nick_name like  concat('%', #{nickName}, '%')
+		</if>
+		<if test="status!=null">
+			and status=#{status}
+		</if>
+
+		<if test="department!=null and department!='353B5D7ECB12484B88FA832BF1EB1CE2'">
+			and department=#{department}
+		</if>
+
+	</select>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE from <include refid="userTableName"/> WHERE user_id=#{userId}
+	</delete>
+
+	<update id="saveUser" parameterType="com.i1314i.ourproject.po.User">
+		update  <include refid="userTableName"></include> t set username = #{username}
+		<if test="nickName!=null">
+			, nick_name = #{nickName}
+		</if>
+		<if test="telephone!=null">
+			, telephone = #{telephone}
+		</if>
+		<if test="sex!=null">
+			,sex = #{sex}
+		</if>
+		<if test="status!=null">
+			,status = #{status}
+		</if>,
+		department=#{department}
+		<if test="type!=null">
+			, type = #{type}
+		</if>
+		,join_time=#{joinTime}
+		where t.user_id = #{userId}
+	</update>
+</mapper>

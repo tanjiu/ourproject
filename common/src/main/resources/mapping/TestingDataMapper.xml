@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.TestingDataMapper">
+
+
+	<resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.testing.TestingDate">
+		<id column="date_id" property="dateId" />
+		<result column="product_type" property="productType" jdbcType="VARCHAR"/>
+		<result column="sample_name" property="sampleName" jdbcType="VARCHAR" />
+		<result column="detection_project" property="detectionProject" jdbcType="VARCHAR" />
+		<result column="measured_value" property="measuredValue"/>
+		<result column="conclusion" property="conclusion" jdbcType="VARCHAR" />
+		<result column="testing_company" property="testingCompany" jdbcType="VARCHAR"/>
+		<result column="place_of_origin" property="placeOfOrigin" jdbcType="VARCHAR"/>
+		<result column="testing_time"  property="testingTime"/>
+		<result column="result" property="result" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<select id="selectTestingDataListByTime"  resultMap="BaseResultMap">
+
+		SELECT * from testing_data WHERE  <![CDATA[testing_time>=#{startTime} AND  testing_time<=#{endTime}]]>;
+	</select>
+
+	<insert id="insertList" parameterType="java.util.List">
+		insert into testing_data (product_type, sample_name,detection_project, measured_value,conclusion,testing_company,place_of_origin,testing_time,result) values
+		         <foreach collection="list" item="item" index="index" separator=",">
+		             (#{item.productType},
+					  #{item.sampleName},
+					 #{item.detectionProject},
+					 #{item.measuredValue},
+					 #{item.conclusion},
+					 #{item.testingCompany},
+					 #{item.placeOfOrigin},
+					 #{item.testingTime},
+		              #{item.result})
+		         </foreach>
+	</insert>
+
+
+	<select id="selectAllData" resultMap="BaseResultMap">
+		SELECT * from testing_data;
+	</select>
+</mapper>

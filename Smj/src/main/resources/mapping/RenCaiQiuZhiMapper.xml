@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.RenCaiQiuZhiMapper">
+  <resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.javabean.RenCaiQiuZhi">
+    <id column="rencai_id" jdbcType="INTEGER" property="rencaiId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="xueli" jdbcType="VARCHAR" property="xueli" />
+    <result column="qiuzhifangxiang" jdbcType="VARCHAR" property="qiuzhifangxiang" />
+    <result column="gerenjianjie" jdbcType="VARCHAR" property="gerenjianjie" />
+    <result column="beiyong1" jdbcType="VARCHAR" property="beiyong1" />
+    <result column="beiyong2" jdbcType="VARCHAR" property="beiyong2" />
+    <result column="shenhe" jdbcType="VARCHAR" property="shenhe" />
+    <result column="gongzuodidian" jdbcType="INTEGER" property="gongzuodidian" />
+    <result column="yuanyin" jdbcType="VARCHAR" property="yuanyin" />
+    <result column="beiyong3" jdbcType="VARCHAR" property="beiyong3" />
+    <result column="beiyong4" jdbcType="VARCHAR" property="beiyong4" />
+    <result column="beiyong5" jdbcType="VARCHAR" property="beiyong5" />
+    <result column="bumen" jdbcType="INTEGER" property="bumen" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rencai_id, name, sex, age, tel, xueli, qiuzhifangxiang, gerenjianjie, beiyong1, beiyong2, 
+    shenhe, gongzuodidian, yuanyin, beiyong3, beiyong4, beiyong5, bumen
+  </sql>
+  <select id="selectByExample" parameterType="com.i1314i.ourproject.po.javabean.RenCaiQiuZhiExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ren_cai_qiu_zhi
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ren_cai_qiu_zhi
+    where rencai_id = #{rencaiId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ren_cai_qiu_zhi
+    where rencai_id = #{rencaiId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.i1314i.ourproject.po.javabean.RenCaiQiuZhiExample">
+    delete from ren_cai_qiu_zhi
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.i1314i.ourproject.po.javabean.RenCaiQiuZhi">
+    insert into ren_cai_qiu_zhi (rencai_id, name, sex, 
+      age, tel, xueli, qiuzhifangxiang, 
+      gerenjianjie, beiyong1, beiyong2, 
+      shenhe, gongzuodidian, yuanyin, 
+      beiyong3, beiyong4, beiyong5, 
+      bumen)
+    values (#{rencaiId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{tel,jdbcType=VARCHAR}, #{xueli,jdbcType=VARCHAR}, #{qiuzhifangxiang,jdbcType=VARCHAR}, 
+      #{gerenjianjie,jdbcType=VARCHAR}, #{beiyong1,jdbcType=VARCHAR}, #{beiyong2,jdbcType=VARCHAR}, 
+      #{shenhe,jdbcType=VARCHAR}, #{gongzuodidian,jdbcType=INTEGER}, #{yuanyin,jdbcType=VARCHAR}, 
+      #{beiyong3,jdbcType=VARCHAR}, #{beiyong4,jdbcType=VARCHAR}, #{beiyong5,jdbcType=VARCHAR}, 
+      #{bumen,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.i1314i.ourproject.po.javabean.RenCaiQiuZhi">
+    insert into ren_cai_qiu_zhi
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rencaiId != null">
+        rencai_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="xueli != null">
+        xueli,
+      </if>
+      <if test="qiuzhifangxiang != null">
+        qiuzhifangxiang,
+      </if>
+      <if test="gerenjianjie != null">
+        gerenjianjie,
+      </if>
+      <if test="beiyong1 != null">
+        beiyong1,
+      </if>
+      <if test="beiyong2 != null">
+        beiyong2,
+      </if>
+      <if test="shenhe != null">
+        shenhe,
+      </if>
+      <if test="gongzuodidian != null">
+        gongzuodidian,
+      </if>
+      <if test="yuanyin != null">
+        yuanyin,
+      </if>
+      <if test="beiyong3 != null">
+        beiyong3,
+      </if>
+      <if test="beiyong4 != null">
+        beiyong4,
+      </if>
+      <if test="beiyong5 != null">
+        beiyong5,
+      </if>
+      <if test="bumen != null">
+        bumen,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rencaiId != null">
+        #{rencaiId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="xueli != null">
+        #{xueli,jdbcType=VARCHAR},
+      </if>
+      <if test="qiuzhifangxiang != null">
+        #{qiuzhifangxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="gerenjianjie != null">
+        #{gerenjianjie,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong1 != null">
+        #{beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong2 != null">
+        #{beiyong2,jdbcType=VARCHAR},
+      </if>
+      <if test="shenhe != null">
+        #{shenhe,jdbcType=VARCHAR},
+      </if>
+      <if test="gongzuodidian != null">
+        #{gongzuodidian,jdbcType=INTEGER},
+      </if>
+      <if test="yuanyin != null">
+        #{yuanyin,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong3 != null">
+        #{beiyong3,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong4 != null">
+        #{beiyong4,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong5 != null">
+        #{beiyong5,jdbcType=VARCHAR},
+      </if>
+      <if test="bumen != null">
+        #{bumen,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.i1314i.ourproject.po.javabean.RenCaiQiuZhiExample" resultType="java.lang.Long">
+    select count(*) from ren_cai_qiu_zhi
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ren_cai_qiu_zhi
+    <set>
+      <if test="record.rencaiId != null">
+        rencai_id = #{record.rencaiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.tel != null">
+        tel = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xueli != null">
+        xueli = #{record.xueli,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qiuzhifangxiang != null">
+        qiuzhifangxiang = #{record.qiuzhifangxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gerenjianjie != null">
+        gerenjianjie = #{record.gerenjianjie,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beiyong1 != null">
+        beiyong1 = #{record.beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beiyong2 != null">
+        beiyong2 = #{record.beiyong2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shenhe != null">
+        shenhe = #{record.shenhe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gongzuodidian != null">
+        gongzuodidian = #{record.gongzuodidian,jdbcType=INTEGER},
+      </if>
+      <if test="record.yuanyin != null">
+        yuanyin = #{record.yuanyin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beiyong3 != null">
+        beiyong3 = #{record.beiyong3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beiyong4 != null">
+        beiyong4 = #{record.beiyong4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beiyong5 != null">
+        beiyong5 = #{record.beiyong5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bumen != null">
+        bumen = #{record.bumen,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ren_cai_qiu_zhi
+    set rencai_id = #{record.rencaiId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      tel = #{record.tel,jdbcType=VARCHAR},
+      xueli = #{record.xueli,jdbcType=VARCHAR},
+      qiuzhifangxiang = #{record.qiuzhifangxiang,jdbcType=VARCHAR},
+      gerenjianjie = #{record.gerenjianjie,jdbcType=VARCHAR},
+      beiyong1 = #{record.beiyong1,jdbcType=VARCHAR},
+      beiyong2 = #{record.beiyong2,jdbcType=VARCHAR},
+      shenhe = #{record.shenhe,jdbcType=VARCHAR},
+      gongzuodidian = #{record.gongzuodidian,jdbcType=INTEGER},
+      yuanyin = #{record.yuanyin,jdbcType=VARCHAR},
+      beiyong3 = #{record.beiyong3,jdbcType=VARCHAR},
+      beiyong4 = #{record.beiyong4,jdbcType=VARCHAR},
+      beiyong5 = #{record.beiyong5,jdbcType=VARCHAR},
+      bumen = #{record.bumen,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.i1314i.ourproject.po.javabean.RenCaiQiuZhi">
+    update ren_cai_qiu_zhi
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="xueli != null">
+        xueli = #{xueli,jdbcType=VARCHAR},
+      </if>
+      <if test="qiuzhifangxiang != null">
+        qiuzhifangxiang = #{qiuzhifangxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="gerenjianjie != null">
+        gerenjianjie = #{gerenjianjie,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong1 != null">
+        beiyong1 = #{beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong2 != null">
+        beiyong2 = #{beiyong2,jdbcType=VARCHAR},
+      </if>
+      <if test="shenhe != null">
+        shenhe = #{shenhe,jdbcType=VARCHAR},
+      </if>
+      <if test="gongzuodidian != null">
+        gongzuodidian = #{gongzuodidian,jdbcType=INTEGER},
+      </if>
+      <if test="yuanyin != null">
+        yuanyin = #{yuanyin,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong3 != null">
+        beiyong3 = #{beiyong3,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong4 != null">
+        beiyong4 = #{beiyong4,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong5 != null">
+        beiyong5 = #{beiyong5,jdbcType=VARCHAR},
+      </if>
+      <if test="bumen != null">
+        bumen = #{bumen,jdbcType=INTEGER},
+      </if>
+    </set>
+    where rencai_id = #{rencaiId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.i1314i.ourproject.po.javabean.RenCaiQiuZhi">
+    update ren_cai_qiu_zhi
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      tel = #{tel,jdbcType=VARCHAR},
+      xueli = #{xueli,jdbcType=VARCHAR},
+      qiuzhifangxiang = #{qiuzhifangxiang,jdbcType=VARCHAR},
+      gerenjianjie = #{gerenjianjie,jdbcType=VARCHAR},
+      beiyong1 = #{beiyong1,jdbcType=VARCHAR},
+      beiyong2 = #{beiyong2,jdbcType=VARCHAR},
+      shenhe = #{shenhe,jdbcType=VARCHAR},
+      gongzuodidian = #{gongzuodidian,jdbcType=INTEGER},
+      yuanyin = #{yuanyin,jdbcType=VARCHAR},
+      beiyong3 = #{beiyong3,jdbcType=VARCHAR},
+      beiyong4 = #{beiyong4,jdbcType=VARCHAR},
+      beiyong5 = #{beiyong5,jdbcType=VARCHAR},
+      bumen = #{bumen,jdbcType=INTEGER}
+    where rencai_id = #{rencaiId,jdbcType=INTEGER}
+  </update>
+</mapper>

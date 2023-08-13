@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.JieDaoMapper">
+  <resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.javabean.JieDao">
+    <id column="jie_dao_id" jdbcType="INTEGER" property="jieDaoId" />
+    <result column="jie_dao_ming_cheng" jdbcType="VARCHAR" property="jieDaoMingCheng" />
+    <result column="beiyong1" jdbcType="VARCHAR" property="beiyong1" />
+    <result column="beiyong2" jdbcType="VARCHAR" property="beiyong2" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    jie_dao_id, jie_dao_ming_cheng, beiyong1, beiyong2
+  </sql>
+  <select id="selectByExample" parameterType="com.i1314i.ourproject.po.javabean.JieDaoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jie_dao
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jie_dao
+    where jie_dao_id = #{jieDaoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jie_dao
+    where jie_dao_id = #{jieDaoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.i1314i.ourproject.po.javabean.JieDaoExample">
+    delete from jie_dao
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.i1314i.ourproject.po.javabean.JieDao">
+    insert into jie_dao (jie_dao_id, jie_dao_ming_cheng, beiyong1, 
+      beiyong2)
+    values (#{jieDaoId,jdbcType=INTEGER}, #{jieDaoMingCheng,jdbcType=VARCHAR}, #{beiyong1,jdbcType=VARCHAR}, 
+      #{beiyong2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.i1314i.ourproject.po.javabean.JieDao">
+    insert into jie_dao
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jieDaoId != null">
+        jie_dao_id,
+      </if>
+      <if test="jieDaoMingCheng != null">
+        jie_dao_ming_cheng,
+      </if>
+      <if test="beiyong1 != null">
+        beiyong1,
+      </if>
+      <if test="beiyong2 != null">
+        beiyong2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jieDaoId != null">
+        #{jieDaoId,jdbcType=INTEGER},
+      </if>
+      <if test="jieDaoMingCheng != null">
+        #{jieDaoMingCheng,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong1 != null">
+        #{beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong2 != null">
+        #{beiyong2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.i1314i.ourproject.po.javabean.JieDaoExample" resultType="java.lang.Long">
+    select count(*) from jie_dao
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update jie_dao
+    <set>
+      <if test="record.jieDaoId != null">
+        jie_dao_id = #{record.jieDaoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.jieDaoMingCheng != null">
+        jie_dao_ming_cheng = #{record.jieDaoMingCheng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beiyong1 != null">
+        beiyong1 = #{record.beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beiyong2 != null">
+        beiyong2 = #{record.beiyong2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update jie_dao
+    set jie_dao_id = #{record.jieDaoId,jdbcType=INTEGER},
+      jie_dao_ming_cheng = #{record.jieDaoMingCheng,jdbcType=VARCHAR},
+      beiyong1 = #{record.beiyong1,jdbcType=VARCHAR},
+      beiyong2 = #{record.beiyong2,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.i1314i.ourproject.po.javabean.JieDao">
+    update jie_dao
+    <set>
+      <if test="jieDaoMingCheng != null">
+        jie_dao_ming_cheng = #{jieDaoMingCheng,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong1 != null">
+        beiyong1 = #{beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong2 != null">
+        beiyong2 = #{beiyong2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where jie_dao_id = #{jieDaoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.i1314i.ourproject.po.javabean.JieDao">
+    update jie_dao
+    set jie_dao_ming_cheng = #{jieDaoMingCheng,jdbcType=VARCHAR},
+      beiyong1 = #{beiyong1,jdbcType=VARCHAR},
+      beiyong2 = #{beiyong2,jdbcType=VARCHAR}
+    where jie_dao_id = #{jieDaoId,jdbcType=INTEGER}
+  </update>
+</mapper>

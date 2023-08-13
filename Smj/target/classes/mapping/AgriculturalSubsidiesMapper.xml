@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.AgriculturalSubsidiesMapper">
+    <resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.javabean.AgriculturalSubsidies">
+        <id column="butie_id" jdbcType="INTEGER" property="butieId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="fangfangdanwei" jdbcType="VARCHAR" property="fangfangdanwei"/>
+        <result column="fafangtime" jdbcType="DATE" property="fafangtime"/>
+        <result column="shou_yi_qun_ti" jdbcType="VARCHAR" property="shouYiQunTi"/>
+        <result column="fafang_xingshi" jdbcType="VARCHAR" property="fafangXingshi"/>
+        <result column="money" jdbcType="DOUBLE" property="money"/>
+        <result column="fabu_shijian" jdbcType="DATE" property="fabuShijian"/>
+        <result column="bumen" jdbcType="INTEGER" property="bumen"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    butie_id, name, content, fangfangdanwei, fafangtime, shou_yi_qun_ti, fafang_xingshi, 
+    money, fabu_shijian, bumen
+  </sql>
+    <select id="selectByExample" parameterType="com.i1314i.ourproject.po.javabean.AgriculturalSubsidiesExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from agricultural_subsidies
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from agricultural_subsidies
+        where butie_id = #{butieId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from agricultural_subsidies
+    where butie_id = #{butieId,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.i1314i.ourproject.po.javabean.AgriculturalSubsidiesExample">
+        delete from agricultural_subsidies
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.i1314i.ourproject.po.javabean.AgriculturalSubsidies">
+    insert into agricultural_subsidies (butie_id, name, content, 
+      fangfangdanwei, fafangtime, shou_yi_qun_ti, 
+      fafang_xingshi, money, fabu_shijian, 
+      bumen)
+    values (#{butieId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{fangfangdanwei,jdbcType=VARCHAR}, #{fafangtime,jdbcType=DATE}, #{shouYiQunTi,jdbcType=VARCHAR}, 
+      #{fafangXingshi,jdbcType=VARCHAR}, #{money,jdbcType=DOUBLE}, #{fabuShijian,jdbcType=DATE}, 
+      #{bumen,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.i1314i.ourproject.po.javabean.AgriculturalSubsidies">
+        insert into agricultural_subsidies
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="butieId != null">
+                butie_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="fangfangdanwei != null">
+                fangfangdanwei,
+            </if>
+            <if test="fafangtime != null">
+                fafangtime,
+            </if>
+            <if test="shouYiQunTi != null">
+                shou_yi_qun_ti,
+            </if>
+            <if test="fafangXingshi != null">
+                fafang_xingshi,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="fabuShijian != null">
+                fabu_shijian,
+            </if>
+            <if test="bumen != null">
+                bumen,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="butieId != null">
+                #{butieId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="fangfangdanwei != null">
+                #{fangfangdanwei,jdbcType=VARCHAR},
+            </if>
+            <if test="fafangtime != null">
+                #{fafangtime,jdbcType=DATE},
+            </if>
+            <if test="shouYiQunTi != null">
+                #{shouYiQunTi,jdbcType=VARCHAR},
+            </if>
+            <if test="fafangXingshi != null">
+                #{fafangXingshi,jdbcType=VARCHAR},
+            </if>
+            <if test="money != null">
+                #{money,jdbcType=DOUBLE},
+            </if>
+            <if test="fabuShijian != null">
+                #{fabuShijian,jdbcType=DATE},
+            </if>
+            <if test="bumen != null">
+                #{bumen,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.i1314i.ourproject.po.javabean.AgriculturalSubsidiesExample"
+            resultType="java.lang.Long">
+        select count(*) from agricultural_subsidies
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update agricultural_subsidies
+        <set>
+            <if test="record.butieId != null">
+                butie_id = #{record.butieId,jdbcType=INTEGER},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.content != null">
+                content = #{record.content,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fangfangdanwei != null">
+                fangfangdanwei = #{record.fangfangdanwei,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fafangtime != null">
+                fafangtime = #{record.fafangtime,jdbcType=DATE},
+            </if>
+            <if test="record.shouYiQunTi != null">
+                shou_yi_qun_ti = #{record.shouYiQunTi,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fafangXingshi != null">
+                fafang_xingshi = #{record.fafangXingshi,jdbcType=VARCHAR},
+            </if>
+            <if test="record.money != null">
+                money = #{record.money,jdbcType=DOUBLE},
+            </if>
+            <if test="record.fabuShijian != null">
+                fabu_shijian = #{record.fabuShijian,jdbcType=DATE},
+            </if>
+            <if test="record.bumen != null">
+                bumen = #{record.bumen,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update agricultural_subsidies
+        set butie_id = #{record.butieId,jdbcType=INTEGER},
+        name = #{record.name,jdbcType=VARCHAR},
+        content = #{record.content,jdbcType=VARCHAR},
+        fangfangdanwei = #{record.fangfangdanwei,jdbcType=VARCHAR},
+        fafangtime = #{record.fafangtime,jdbcType=DATE},
+        shou_yi_qun_ti = #{record.shouYiQunTi,jdbcType=VARCHAR},
+        fafang_xingshi = #{record.fafangXingshi,jdbcType=VARCHAR},
+        money = #{record.money,jdbcType=DOUBLE},
+        fabu_shijian = #{record.fabuShijian,jdbcType=DATE},
+        bumen = #{record.bumen,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.i1314i.ourproject.po.javabean.AgriculturalSubsidies">
+        update agricultural_subsidies
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="fangfangdanwei != null">
+                fangfangdanwei = #{fangfangdanwei,jdbcType=VARCHAR},
+            </if>
+            <if test="fafangtime != null">
+                fafangtime = #{fafangtime,jdbcType=DATE},
+            </if>
+            <if test="shouYiQunTi != null">
+                shou_yi_qun_ti = #{shouYiQunTi,jdbcType=VARCHAR},
+            </if>
+            <if test="fafangXingshi != null">
+                fafang_xingshi = #{fafangXingshi,jdbcType=VARCHAR},
+            </if>
+            <if test="money != null">
+                money = #{money,jdbcType=DOUBLE},
+            </if>
+            <if test="fabuShijian != null">
+                fabu_shijian = #{fabuShijian,jdbcType=DATE},
+            </if>
+            <if test="bumen != null">
+                bumen = #{bumen,jdbcType=INTEGER},
+            </if>
+        </set>
+        where butie_id = #{butieId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.i1314i.ourproject.po.javabean.AgriculturalSubsidies">
+    update agricultural_subsidies
+    set name = #{name,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      fangfangdanwei = #{fangfangdanwei,jdbcType=VARCHAR},
+      fafangtime = #{fafangtime,jdbcType=DATE},
+      shou_yi_qun_ti = #{shouYiQunTi,jdbcType=VARCHAR},
+      fafang_xingshi = #{fafangXingshi,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DOUBLE},
+      fabu_shijian = #{fabuShijian,jdbcType=DATE},
+      bumen = #{bumen,jdbcType=INTEGER}
+    where butie_id = #{butieId,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectCountAll" resultType="java.lang.Integer">select count(*) from agricultural_subsidies</select>
+</mapper>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<script src="../../filter.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap-select.min.css">
+
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<form class="form-horizontal" onsubmit="return false" id="form">
+		<fieldset>
+			<div class="form-group">
+				<label class="col-xs-2 col-md-2 control-label">任务名称</label>
+				<div class="col-md-6 col-xs-6">
+					<input class="form-control" placeholder="任务名称" type="text" maxlength="60" name="jobName"
+						data-bv-notempty="true"
+						data-bv-notempty-message="任务名称 不能为空">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-2 col-md-2 control-label">任务组名称</label>
+				<div class="col-md-6 col-xs-6">
+					<input class="form-control" placeholder="任务组名称" type="text" maxlength="60" name="jobGroup"
+						   data-bv-notempty="true"
+						   data-bv-notempty-message="任务组名称 不能为空">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class=" col-xs-2 col-md-2 control-label">触发器名称</label>
+				<div class="col-md-6 col-xs-6">
+					<input class="form-control" placeholder="触发器名称" type="text" maxlength="60" name="triggerName"
+						   data-bv-notempty="true"
+						   data-bv-notempty-message="触发器名称 不能为空">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class=" col-xs-2 col-md-2 control-label">触发器组名称</label>
+				<div class="col-md-6 col-xs-6">
+					<input class="form-control" placeholder="触发器组名称" type="text" maxlength="60" name="triggerGroupName"
+						   data-bv-notempty="true"
+						   data-bv-notempty-message="触发器组名称 不能为空">
+				</div>
+			</div>
+
+
+
+
+
+			<div class="form-group">
+				<label class="col-xs-2 col-md-2 control-label">cron表达式</label>
+				<div class="col-md-10 form-inline">
+					<input class="form-control" placeholder="cron表达式" type="text" name="cronExpr" id="cronExpr"
+						data-bv-notempty="true"
+						data-bv-notempty-message="cron表达式 不能为空"><button class="btn btn-primary" onclick="checkCron()">检查</button>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class=" col-xs-2 col-md-2 control-label">反射类名<span style="color: red"></span></label>
+				<div class="col-md-8 col-xs-8">
+
+					<input class="form-control" placeholder="反射类名" type="text" maxlength="60" name="jobClass"
+						   data-bv-notempty="true"
+						   data-bv-notempty-message="反射类名 不能为空">
+				</div>
+			</div>
+
+
+			<div class="form-actions">
+				<div class="row" align="center">
+					<div class="col-md-12">
+					    <button class="btn btn-primary" onclick="closeThisWindow();">返回</button>
+						<button class="btn btn-primary" type="submit"  onclick="add();">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+	<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jq.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap/bootstrap-select.min.js"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript" src="../../js/my/job.js"></script>
+	<script type="text/javascript">
+		layui.use(['layer'], function(){
+		    var layer = layui.layer;
+		});
+		
+//		initBeanNames();
+//		showMethods();
+		
+		function add() {
+			$('#form').bootstrapValidator();
+			var bootstrapValidator = $("#form").data('bootstrapValidator');
+			bootstrapValidator.validate();
+		    if(!bootstrapValidator.isValid()){
+			   return;
+		    }
+		    
+		    var formdata = $("#form").serializeObject();
+
+			$.ajax({
+				type : 'post',
+				url : '/api/quartz/',
+                headers: {
+                    // Accept: "application/json; charset=utf-8",
+                    token:getToken()
+                },
+				contentType: "application/json; charset=utf-8",  
+				data : JSON.stringify(formdata),
+				success : function(data) {
+
+                    if (data.code == "200") {
+                        layer.msg("成功", {shift: -1, time: 1000}, function () {
+                            layer.close(index);
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+                            parent.location.reload();
+                            location.href = "jobList.html";
+                        });
+
+                    }else if (data.code=="120"){
+                        layer.msg("自定义定时任务未知错误(已存在)", {
+                            shift : -1,
+                            time : 1000
+                        }, function() {
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+                            parent.location.reload();
+                        });
+					}
+                }
+			});
+		}
+        function closeThisWindow() {
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭
+        }
+	</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Creating Modal Window with Twitter Bootstrap">
+
+	<title></title>
+	  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <script src="ckeditor/ckeditor.js"></script>
+
+    <link rel="stylesheet" href="assets/bootstrap-select-1.13.2/dist/css/bootstrap-select.min.css">
+    <!--<script src="bootstrap-select.min.js"></script>-->
+    <script src="assets/js/jquery-1.12.4.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+     
+
+    	tbody>tr>th
+    	{
+    		text-align: center;
+    		padding-left: 5px;
+    		padding-right: 5px;
+    	}
+    	.buttom
+    	{
+    		margin-top: 50px;
+    	}
+    	.nav_1
+    	{
+    		margin-right: 50px;
+    	}
+        .row
+        {
+            margin-top: 10px;
+        }
+        .row .row
+        {
+            margin-top: 10px;
+            margin-bottom: 0px;
+        }
+     
+    </style>
+
+
+</head>
+
+
+
+<body>
+
+     
+
+<div class="container">
+
+        <!-- 弹框 -->
+        <div id="div_1" class="col-md-9" style=" padding:0px; height: 550px; border: 1px solid #F8F8FF; background-color: #F8F8FF;">
+            <div class="top container-fluid text-right" style=" margin:0px,0px; padding-top: 3px; padding-right: 5px; background-color: skyblue; border: 3px solid skyblue; height: 35px;">
+                <a href="javascript:void(0)" onclick="$('#div_1').hide()"><span class="glyphicon glyphicon-remove right"></span></a></div>
+                <form class="form" action="">
+
+ 
+                  <div class="form-group" style="height: 55px; margin-top: 20px;">
+                    <label>请选择类型</label>
+                    <select id ="queryDevice"class="selectpicker  form-control" data-live-search="true">
+    <option data-tokens="ketchup mustard">种植业政策</option>
+    <option data-tokens="ketchup mustard">养殖业政策</option>
+    <option data-tokens="ketchup mustard">人力资源政策</option>
+    <option data-tokens="ketchup mustard">涉农补贴</option>
+  </select>  
+                  </div>
+    
+ 
+
+               <div class="form-group" style="height: 70px; margin-bottom: 0px;">
+                   <h5>标题</h5>
+                   <input type="text" class="form-control" style="height: 40px;">
+               </div>
+                <h4>内容</h4>
+      <textarea name="content" id="content" class="col-sm-5">
+                                   
+                                </textarea>
+                                <script>
+                                    var editor = CKEDITOR.replace( 'content' );
+                                    CKFinder.setupCKEditor(editor, '/ckfinder/');
+                                </script>
+                    <input type="submit" class="btn btn-info  col-md-12" value="提交" onclick="if(confirm('确认添加吗？')==false)return false;">
+           </form>
+</div>
+
+
+<button class="btn btn-info" onclick="$('#div_1').toggle('slow')">添加</button>
+
+
+       
+</div>
+
+</body>
+</html>

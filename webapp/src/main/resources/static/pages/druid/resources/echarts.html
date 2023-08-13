@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="../../../filter.js"></script>
+    <script>
+        filter(['sys:view:druid']);
+    </script>
+    <script src="../../../js/plugin/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <link href='../css/bootstrap.min.css' rel="stylesheet" />
+    <link href="../css/style.css" type="text/css" rel="stylesheet"/>
+    <script src="../js/lang.js" type="text/javascript" charset="utf8"></script>
+    <script src="../js/common.js" type="text/javascript" charset="utf8"></script>
+</head>
+<body onload="init();" style="height: 100%">
+<div class="container">
+    <div id="main" style="width: 90%;height:400px;"></div>
+    <div id="mains" style="width: 90%;height:400px; margin-top: 50px;"></div>
+</div>
+
+</body >
+
+<script type="text/javascript">
+
+    function init() {
+        druid.common.buildHead(8);
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: "/druid/webapp.json",
+        success: function(data) {
+            var datasourceList = data.Content[0];
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+
+            myChart.title = '数据监控值';
+
+            option = {
+                title: {
+                    text: '系统数据监控',
+                    subtext: '数据来自系统监控系统'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['now']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01]
+                },
+                yAxis: {
+                    type: 'category',
+                    data: ['读取行数','Jdbc执行数','SessionCount','执行中','最大并发','请求次数(次)']
+                },
+                series: [
+
+                    {
+                        name: '统计',
+                        type: 'bar',
+                        data: [datasourceList.JdbcFetchRowCount, datasourceList.JdbcExecuteCount, datasourceList.SessionCount, datasourceList.RunningCount, datasourceList.ConcurrentMax, datasourceList.RequestCount]
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        },
+        dataType: "json"
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: "/druid/wall.json",
+        success: function(data) {
+            var datasourceList = data.Content;
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('mains'));
+
+            myChart.title = '防御统计';
+
+            option = {
+                title : {
+                    text: '防御统计',
+                    subtext: '数据来自监控模块',
+                    x:'center'
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['检查次数','硬检查次数','非法次数','黑名单命中次数','白名单命中次数','黑名单长度','白名单长度','语法错误次数']
+                },
+                series : [
+                    {
+                        name: '检测类型',
+                        type: 'pie',
+                        radius : '55%',
+                        center: ['50%', '60%'],
+                        data:[
+                            {value:datasourceList.checkCount, name:'检查次数'},
+                            {value:datasourceList.hardCheckCount, name:'硬检查次数'},
+                            {value:datasourceList.violationCount, name:'非法次数'},
+                            {value:datasourceList.blackListHitCount, name:'黑名单命中次数'},
+                            {value:datasourceList.whiteListHitCount, name:'白名单命中次数'},
+                            {value:datasourceList.blackListSize, name:'黑名单长度'},
+                            {value:datasourceList.whiteListSize, name:'白名单长度'},
+                            {value:datasourceList.syntaxErrorCount, name:'语法错误次数'}
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        },
+        dataType: "json"
+    });
+
+</script>
+</html>

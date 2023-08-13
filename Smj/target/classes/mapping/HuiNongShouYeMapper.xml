@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.HuiNongShouYeMapper">
+  <resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.javabean.HuiNongShouYe">
+    <id column="xin_xi_id" jdbcType="INTEGER" property="xinXiId" />
+    <result column="mian_ji" jdbcType="DOUBLE" property="mianJi" />
+    <result column="shu_liang" jdbcType="INTEGER" property="shuLiang" />
+    <result column="mian_ji_dan_wei" jdbcType="VARCHAR" property="mianJiDanWei" />
+    <result column="xi_type" jdbcType="VARCHAR" property="xiType" />
+    <result column="time" jdbcType="DATE" property="time" />
+    <result column="nian_chan_liang" jdbcType="DOUBLE" property="nianChanLiang" />
+    <result column="nian_chan_liang_dan_wei" jdbcType="VARCHAR" property="nianChanLiangDanWei" />
+    <result column="dan_chan" jdbcType="DOUBLE" property="danChan" />
+    <result column="da_type" jdbcType="VARCHAR" property="daType" />
+    <result column="ming_cheng" jdbcType="VARCHAR" property="mingCheng" />
+    <result column="beiyong1" jdbcType="VARCHAR" property="beiyong1" />
+    <result column="beiyong2" jdbcType="VARCHAR" property="beiyong2" />
+    <result column="beiyong3" jdbcType="DOUBLE" property="beiyong3" />
+    <result column="beiyong4" jdbcType="DOUBLE" property="beiyong4" />
+    <result column="beiyong5" jdbcType="INTEGER" property="beiyong5" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    xin_xi_id, mian_ji, shu_liang, mian_ji_dan_wei, xi_type, time, nian_chan_liang, nian_chan_liang_dan_wei, 
+    dan_chan, da_type, ming_cheng, beiyong1, beiyong2, beiyong3, beiyong4, beiyong5
+  </sql>
+  <select id="selectByExample" parameterType="com.i1314i.ourproject.po.javabean.HuiNongShouYeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from hui_nong_shou_ye
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hui_nong_shou_ye
+    where xin_xi_id = #{xinXiId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hui_nong_shou_ye
+    where xin_xi_id = #{xinXiId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.i1314i.ourproject.po.javabean.HuiNongShouYeExample">
+    delete from hui_nong_shou_ye
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.i1314i.ourproject.po.javabean.HuiNongShouYe">
+    insert into hui_nong_shou_ye (xin_xi_id, mian_ji, shu_liang, 
+      mian_ji_dan_wei, xi_type, time, 
+      nian_chan_liang, nian_chan_liang_dan_wei, dan_chan, 
+      da_type, ming_cheng, beiyong1, 
+      beiyong2, beiyong3, beiyong4, 
+      beiyong5)
+    values (#{xinXiId,jdbcType=INTEGER}, #{mianJi,jdbcType=DOUBLE}, #{shuLiang,jdbcType=INTEGER}, 
+      #{mianJiDanWei,jdbcType=VARCHAR}, #{xiType,jdbcType=VARCHAR}, #{time,jdbcType=DATE}, 
+      #{nianChanLiang,jdbcType=DOUBLE}, #{nianChanLiangDanWei,jdbcType=VARCHAR}, #{danChan,jdbcType=DOUBLE}, 
+      #{daType,jdbcType=VARCHAR}, #{mingCheng,jdbcType=VARCHAR}, #{beiyong1,jdbcType=VARCHAR}, 
+      #{beiyong2,jdbcType=VARCHAR}, #{beiyong3,jdbcType=DOUBLE}, #{beiyong4,jdbcType=DOUBLE}, 
+      #{beiyong5,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.i1314i.ourproject.po.javabean.HuiNongShouYe">
+    insert into hui_nong_shou_ye
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xinXiId != null">
+        xin_xi_id,
+      </if>
+      <if test="mianJi != null">
+        mian_ji,
+      </if>
+      <if test="shuLiang != null">
+        shu_liang,
+      </if>
+      <if test="mianJiDanWei != null">
+        mian_ji_dan_wei,
+      </if>
+      <if test="xiType != null">
+        xi_type,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="nianChanLiang != null">
+        nian_chan_liang,
+      </if>
+      <if test="nianChanLiangDanWei != null">
+        nian_chan_liang_dan_wei,
+      </if>
+      <if test="danChan != null">
+        dan_chan,
+      </if>
+      <if test="daType != null">
+        da_type,
+      </if>
+      <if test="mingCheng != null">
+        ming_cheng,
+      </if>
+      <if test="beiyong1 != null">
+        beiyong1,
+      </if>
+      <if test="beiyong2 != null">
+        beiyong2,
+      </if>
+      <if test="beiyong3 != null">
+        beiyong3,
+      </if>
+      <if test="beiyong4 != null">
+        beiyong4,
+      </if>
+      <if test="beiyong5 != null">
+        beiyong5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xinXiId != null">
+        #{xinXiId,jdbcType=INTEGER},
+      </if>
+      <if test="mianJi != null">
+        #{mianJi,jdbcType=DOUBLE},
+      </if>
+      <if test="shuLiang != null">
+        #{shuLiang,jdbcType=INTEGER},
+      </if>
+      <if test="mianJiDanWei != null">
+        #{mianJiDanWei,jdbcType=VARCHAR},
+      </if>
+      <if test="xiType != null">
+        #{xiType,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=DATE},
+      </if>
+      <if test="nianChanLiang != null">
+        #{nianChanLiang,jdbcType=DOUBLE},
+      </if>
+      <if test="nianChanLiangDanWei != null">
+        #{nianChanLiangDanWei,jdbcType=VARCHAR},
+      </if>
+      <if test="danChan != null">
+        #{danChan,jdbcType=DOUBLE},
+      </if>
+      <if test="daType != null">
+        #{daType,jdbcType=VARCHAR},
+      </if>
+      <if test="mingCheng != null">
+        #{mingCheng,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong1 != null">
+        #{beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong2 != null">
+        #{beiyong2,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong3 != null">
+        #{beiyong3,jdbcType=DOUBLE},
+      </if>
+      <if test="beiyong4 != null">
+        #{beiyong4,jdbcType=DOUBLE},
+      </if>
+      <if test="beiyong5 != null">
+        #{beiyong5,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.i1314i.ourproject.po.javabean.HuiNongShouYeExample" resultType="java.lang.Long">
+    select count(*) from hui_nong_shou_ye
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hui_nong_shou_ye
+    <set>
+      <if test="record.xinXiId != null">
+        xin_xi_id = #{record.xinXiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mianJi != null">
+        mian_ji = #{record.mianJi,jdbcType=DOUBLE},
+      </if>
+      <if test="record.shuLiang != null">
+        shu_liang = #{record.shuLiang,jdbcType=INTEGER},
+      </if>
+      <if test="record.mianJiDanWei != null">
+        mian_ji_dan_wei = #{record.mianJiDanWei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xiType != null">
+        xi_type = #{record.xiType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.time != null">
+        time = #{record.time,jdbcType=DATE},
+      </if>
+      <if test="record.nianChanLiang != null">
+        nian_chan_liang = #{record.nianChanLiang,jdbcType=DOUBLE},
+      </if>
+      <if test="record.nianChanLiangDanWei != null">
+        nian_chan_liang_dan_wei = #{record.nianChanLiangDanWei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.danChan != null">
+        dan_chan = #{record.danChan,jdbcType=DOUBLE},
+      </if>
+      <if test="record.daType != null">
+        da_type = #{record.daType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mingCheng != null">
+        ming_cheng = #{record.mingCheng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beiyong1 != null">
+        beiyong1 = #{record.beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beiyong2 != null">
+        beiyong2 = #{record.beiyong2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beiyong3 != null">
+        beiyong3 = #{record.beiyong3,jdbcType=DOUBLE},
+      </if>
+      <if test="record.beiyong4 != null">
+        beiyong4 = #{record.beiyong4,jdbcType=DOUBLE},
+      </if>
+      <if test="record.beiyong5 != null">
+        beiyong5 = #{record.beiyong5,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hui_nong_shou_ye
+    set xin_xi_id = #{record.xinXiId,jdbcType=INTEGER},
+      mian_ji = #{record.mianJi,jdbcType=DOUBLE},
+      shu_liang = #{record.shuLiang,jdbcType=INTEGER},
+      mian_ji_dan_wei = #{record.mianJiDanWei,jdbcType=VARCHAR},
+      xi_type = #{record.xiType,jdbcType=VARCHAR},
+      time = #{record.time,jdbcType=DATE},
+      nian_chan_liang = #{record.nianChanLiang,jdbcType=DOUBLE},
+      nian_chan_liang_dan_wei = #{record.nianChanLiangDanWei,jdbcType=VARCHAR},
+      dan_chan = #{record.danChan,jdbcType=DOUBLE},
+      da_type = #{record.daType,jdbcType=VARCHAR},
+      ming_cheng = #{record.mingCheng,jdbcType=VARCHAR},
+      beiyong1 = #{record.beiyong1,jdbcType=VARCHAR},
+      beiyong2 = #{record.beiyong2,jdbcType=VARCHAR},
+      beiyong3 = #{record.beiyong3,jdbcType=DOUBLE},
+      beiyong4 = #{record.beiyong4,jdbcType=DOUBLE},
+      beiyong5 = #{record.beiyong5,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.i1314i.ourproject.po.javabean.HuiNongShouYe">
+    update hui_nong_shou_ye
+    <set>
+      <if test="mianJi != null">
+        mian_ji = #{mianJi,jdbcType=DOUBLE},
+      </if>
+      <if test="shuLiang != null">
+        shu_liang = #{shuLiang,jdbcType=INTEGER},
+      </if>
+      <if test="mianJiDanWei != null">
+        mian_ji_dan_wei = #{mianJiDanWei,jdbcType=VARCHAR},
+      </if>
+      <if test="xiType != null">
+        xi_type = #{xiType,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=DATE},
+      </if>
+      <if test="nianChanLiang != null">
+        nian_chan_liang = #{nianChanLiang,jdbcType=DOUBLE},
+      </if>
+      <if test="nianChanLiangDanWei != null">
+        nian_chan_liang_dan_wei = #{nianChanLiangDanWei,jdbcType=VARCHAR},
+      </if>
+      <if test="danChan != null">
+        dan_chan = #{danChan,jdbcType=DOUBLE},
+      </if>
+      <if test="daType != null">
+        da_type = #{daType,jdbcType=VARCHAR},
+      </if>
+      <if test="mingCheng != null">
+        ming_cheng = #{mingCheng,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong1 != null">
+        beiyong1 = #{beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong2 != null">
+        beiyong2 = #{beiyong2,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong3 != null">
+        beiyong3 = #{beiyong3,jdbcType=DOUBLE},
+      </if>
+      <if test="beiyong4 != null">
+        beiyong4 = #{beiyong4,jdbcType=DOUBLE},
+      </if>
+      <if test="beiyong5 != null">
+        beiyong5 = #{beiyong5,jdbcType=INTEGER},
+      </if>
+    </set>
+    where xin_xi_id = #{xinXiId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.i1314i.ourproject.po.javabean.HuiNongShouYe">
+    update hui_nong_shou_ye
+    set mian_ji = #{mianJi,jdbcType=DOUBLE},
+      shu_liang = #{shuLiang,jdbcType=INTEGER},
+      mian_ji_dan_wei = #{mianJiDanWei,jdbcType=VARCHAR},
+      xi_type = #{xiType,jdbcType=VARCHAR},
+      time = #{time,jdbcType=DATE},
+      nian_chan_liang = #{nianChanLiang,jdbcType=DOUBLE},
+      nian_chan_liang_dan_wei = #{nianChanLiangDanWei,jdbcType=VARCHAR},
+      dan_chan = #{danChan,jdbcType=DOUBLE},
+      da_type = #{daType,jdbcType=VARCHAR},
+      ming_cheng = #{mingCheng,jdbcType=VARCHAR},
+      beiyong1 = #{beiyong1,jdbcType=VARCHAR},
+      beiyong2 = #{beiyong2,jdbcType=VARCHAR},
+      beiyong3 = #{beiyong3,jdbcType=DOUBLE},
+      beiyong4 = #{beiyong4,jdbcType=DOUBLE},
+      beiyong5 = #{beiyong5,jdbcType=INTEGER}
+    where xin_xi_id = #{xinXiId,jdbcType=INTEGER}
+  </update>
+    
+    <!--自加-->
+    <update id="updateByDaLeiBie">
+        update hui_nong_shou_ye set beiyong1=#{0} where da_type=#{1}
+    </update>
+</mapper>

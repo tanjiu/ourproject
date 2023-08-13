@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.SlaughterHouseMapper">
+  <resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.javabean.SlaughterHouse">
+    <id column="tuzai_id" jdbcType="INTEGER" property="tuzaiId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="faren" jdbcType="VARCHAR" property="faren" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="x" jdbcType="VARCHAR" property="x" />
+    <result column="y" jdbcType="VARCHAR" property="y" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    tuzai_id, name, address, type, faren, tel, number, x, y
+  </sql>
+  <select id="selectByExample" parameterType="com.i1314i.ourproject.po.javabean.SlaughterHouseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from slaughter_house
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from slaughter_house
+    where tuzai_id = #{tuzaiId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from slaughter_house
+    where tuzai_id = #{tuzaiId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.i1314i.ourproject.po.javabean.SlaughterHouseExample">
+    delete from slaughter_house
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.i1314i.ourproject.po.javabean.SlaughterHouse">
+    insert into slaughter_house (tuzai_id, name, address, 
+      type, faren, tel, number, 
+      x, y)
+    values (#{tuzaiId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{faren,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
+      #{x,jdbcType=VARCHAR}, #{y,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.i1314i.ourproject.po.javabean.SlaughterHouse">
+    insert into slaughter_house
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tuzaiId != null">
+        tuzai_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="faren != null">
+        faren,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="x != null">
+        x,
+      </if>
+      <if test="y != null">
+        y,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tuzaiId != null">
+        #{tuzaiId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="faren != null">
+        #{faren,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="x != null">
+        #{x,jdbcType=VARCHAR},
+      </if>
+      <if test="y != null">
+        #{y,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.i1314i.ourproject.po.javabean.SlaughterHouseExample" resultType="java.lang.Long">
+    select count(*) from slaughter_house
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update slaughter_house
+    <set>
+      <if test="record.tuzaiId != null">
+        tuzai_id = #{record.tuzaiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.faren != null">
+        faren = #{record.faren,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tel != null">
+        tel = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.number != null">
+        number = #{record.number,jdbcType=INTEGER},
+      </if>
+      <if test="record.x != null">
+        x = #{record.x,jdbcType=VARCHAR},
+      </if>
+      <if test="record.y != null">
+        y = #{record.y,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update slaughter_house
+    set tuzai_id = #{record.tuzaiId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      faren = #{record.faren,jdbcType=VARCHAR},
+      tel = #{record.tel,jdbcType=VARCHAR},
+      number = #{record.number,jdbcType=INTEGER},
+      x = #{record.x,jdbcType=VARCHAR},
+      y = #{record.y,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.i1314i.ourproject.po.javabean.SlaughterHouse">
+    update slaughter_house
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="faren != null">
+        faren = #{faren,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="x != null">
+        x = #{x,jdbcType=VARCHAR},
+      </if>
+      <if test="y != null">
+        y = #{y,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tuzai_id = #{tuzaiId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.i1314i.ourproject.po.javabean.SlaughterHouse">
+    update slaughter_house
+    set name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      faren = #{faren,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      x = #{x,jdbcType=VARCHAR},
+      y = #{y,jdbcType=VARCHAR}
+    where tuzai_id = #{tuzaiId,jdbcType=INTEGER}
+  </update>
+</mapper>

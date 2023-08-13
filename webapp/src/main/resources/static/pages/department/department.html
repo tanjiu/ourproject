@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../filter.js"></script>
+    <script>
+        filter(['sys:view:departmentTree']);
+    </script>
+    <link rel="stylesheet" href="../../css/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+</head>
+<body>
+<div>
+    <ul id="ztree" class="ztree"></ul>
+</div>
+</body>
+<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/libs/jquery.ztree.all-3.5.min.js"></script>
+
+<script>
+    $(function() {
+        //zTree相关代码=======================
+        var zTreeObj;
+
+        initTree();//加载zTree
+        function initTree() {//zTree初始化函数
+
+
+            $.ajax({
+                url : baseUrl()+"/api/department/getselfDepartmentList",
+                type:"POST",
+                contentType:'application/json; charset=utf-8',
+                dataType:'json',
+                cache:false,
+                headers: {
+                    // Accept: "application/json; charset=utf-8",
+                    token:getToken()
+                },
+                success : function(data) {
+                    zTreeObj = $.fn.zTree.init($("#ztree"), setting, data.data);
+                    zTreeObj.expandAll(true); //直接展开树结构
+                },
+                error : function(data) {
+                    console.log(data);
+                    alert(data.msg)
+                }
+            });
+
+        }
+        var setting = {
+            check : {// 定义是否显示单选和复选框
+                enable : false,
+//                chkStyle : "checkbox",
+//                chkboxType : {// 勾选 checkbox 对于父子节点的关联关系
+//                    "Y" : "s",
+//                    "N" : "s"
+//                }
+            },
+            data : {// 节点数据系列的属性配置
+                simpleData : {
+                    enable : false,
+                    idKey : "id",// 节点数据中保存唯一标识的属性名称 默认值："id"
+                    pIdKey : "pId"// 节点数据中保存其父节点唯一标识的属性名称 默认值："pId"
+                }
+            },
+        };
+        //zTree相关代码结束 ============================
+    });
+</script>
+</html>

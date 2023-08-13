@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.JobWantedMapper">
+  <resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.javabean.JobWanted">
+    <id column="qiuzhi_id" jdbcType="INTEGER" property="qiuzhiId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="station" jdbcType="VARCHAR" property="station" />
+    <result column="speciality" jdbcType="VARCHAR" property="speciality" />
+    <result column="demand" jdbcType="VARCHAR" property="demand" />
+    <result column="telphone" jdbcType="VARCHAR" property="telphone" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    qiuzhi_id, name, station, speciality, demand, telphone
+  </sql>
+  <select id="selectByExample" parameterType="com.i1314i.ourproject.po.javabean.JobWantedExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from job_wanted
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from job_wanted
+    where qiuzhi_id = #{qiuzhiId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from job_wanted
+    where qiuzhi_id = #{qiuzhiId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.i1314i.ourproject.po.javabean.JobWantedExample">
+    delete from job_wanted
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.i1314i.ourproject.po.javabean.JobWanted">
+    insert into job_wanted (qiuzhi_id, name, station, 
+      speciality, demand, telphone
+      )
+    values (#{qiuzhiId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{station,jdbcType=VARCHAR}, 
+      #{speciality,jdbcType=VARCHAR}, #{demand,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.i1314i.ourproject.po.javabean.JobWanted">
+    insert into job_wanted
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="qiuzhiId != null">
+        qiuzhi_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="station != null">
+        station,
+      </if>
+      <if test="speciality != null">
+        speciality,
+      </if>
+      <if test="demand != null">
+        demand,
+      </if>
+      <if test="telphone != null">
+        telphone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="qiuzhiId != null">
+        #{qiuzhiId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="station != null">
+        #{station,jdbcType=VARCHAR},
+      </if>
+      <if test="speciality != null">
+        #{speciality,jdbcType=VARCHAR},
+      </if>
+      <if test="demand != null">
+        #{demand,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null">
+        #{telphone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.i1314i.ourproject.po.javabean.JobWantedExample" resultType="java.lang.Long">
+    select count(*) from job_wanted
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update job_wanted
+    <set>
+      <if test="record.qiuzhiId != null">
+        qiuzhi_id = #{record.qiuzhiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.station != null">
+        station = #{record.station,jdbcType=VARCHAR},
+      </if>
+      <if test="record.speciality != null">
+        speciality = #{record.speciality,jdbcType=VARCHAR},
+      </if>
+      <if test="record.demand != null">
+        demand = #{record.demand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telphone != null">
+        telphone = #{record.telphone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update job_wanted
+    set qiuzhi_id = #{record.qiuzhiId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      station = #{record.station,jdbcType=VARCHAR},
+      speciality = #{record.speciality,jdbcType=VARCHAR},
+      demand = #{record.demand,jdbcType=VARCHAR},
+      telphone = #{record.telphone,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.i1314i.ourproject.po.javabean.JobWanted">
+    update job_wanted
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="station != null">
+        station = #{station,jdbcType=VARCHAR},
+      </if>
+      <if test="speciality != null">
+        speciality = #{speciality,jdbcType=VARCHAR},
+      </if>
+      <if test="demand != null">
+        demand = #{demand,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null">
+        telphone = #{telphone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where qiuzhi_id = #{qiuzhiId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.i1314i.ourproject.po.javabean.JobWanted">
+    update job_wanted
+    set name = #{name,jdbcType=VARCHAR},
+      station = #{station,jdbcType=VARCHAR},
+      speciality = #{speciality,jdbcType=VARCHAR},
+      demand = #{demand,jdbcType=VARCHAR},
+      telphone = #{telphone,jdbcType=VARCHAR}
+    where qiuzhi_id = #{qiuzhiId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.LvHuaMiaoMuMapper">
+  <resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.javabean.LvHuaMiaoMu">
+    <id column="miao_mu_id" jdbcType="INTEGER" property="miaoMuId" />
+    <result column="mingcheng" jdbcType="VARCHAR" property="mingcheng" />
+    <result column="gui_ge" jdbcType="VARCHAR" property="guiGe" />
+    <result column="dan_jia" jdbcType="DOUBLE" property="danJia" />
+    <result column="beizhu" jdbcType="VARCHAR" property="beizhu" />
+    <result column="shijian" jdbcType="DATE" property="shijian" />
+    <result column="image_id" jdbcType="INTEGER" property="imageId" />
+    <result column="zhi_biao_fang" jdbcType="VARCHAR" property="zhiBiaoFang" />
+    <result column="bumen" jdbcType="INTEGER" property="bumen" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    miao_mu_id, mingcheng, gui_ge, dan_jia, beizhu, shijian, image_id, zhi_biao_fang, 
+    bumen
+  </sql>
+  <select id="selectByExample" parameterType="com.i1314i.ourproject.po.javabean.LvHuaMiaoMuExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from lv_hua_miao_mu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lv_hua_miao_mu
+    where miao_mu_id = #{miaoMuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lv_hua_miao_mu
+    where miao_mu_id = #{miaoMuId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.i1314i.ourproject.po.javabean.LvHuaMiaoMuExample">
+    delete from lv_hua_miao_mu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.i1314i.ourproject.po.javabean.LvHuaMiaoMu">
+    insert into lv_hua_miao_mu (miao_mu_id, mingcheng, gui_ge, 
+      dan_jia, beizhu, shijian, 
+      image_id, zhi_biao_fang, bumen
+      )
+    values (#{miaoMuId,jdbcType=INTEGER}, #{mingcheng,jdbcType=VARCHAR}, #{guiGe,jdbcType=VARCHAR}, 
+      #{danJia,jdbcType=DOUBLE}, #{beizhu,jdbcType=VARCHAR}, #{shijian,jdbcType=DATE}, 
+      #{imageId,jdbcType=INTEGER}, #{zhiBiaoFang,jdbcType=VARCHAR}, #{bumen,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.i1314i.ourproject.po.javabean.LvHuaMiaoMu">
+    insert into lv_hua_miao_mu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="miaoMuId != null">
+        miao_mu_id,
+      </if>
+      <if test="mingcheng != null">
+        mingcheng,
+      </if>
+      <if test="guiGe != null">
+        gui_ge,
+      </if>
+      <if test="danJia != null">
+        dan_jia,
+      </if>
+      <if test="beizhu != null">
+        beizhu,
+      </if>
+      <if test="shijian != null">
+        shijian,
+      </if>
+      <if test="imageId != null">
+        image_id,
+      </if>
+      <if test="zhiBiaoFang != null">
+        zhi_biao_fang,
+      </if>
+      <if test="bumen != null">
+        bumen,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="miaoMuId != null">
+        #{miaoMuId,jdbcType=INTEGER},
+      </if>
+      <if test="mingcheng != null">
+        #{mingcheng,jdbcType=VARCHAR},
+      </if>
+      <if test="guiGe != null">
+        #{guiGe,jdbcType=VARCHAR},
+      </if>
+      <if test="danJia != null">
+        #{danJia,jdbcType=DOUBLE},
+      </if>
+      <if test="beizhu != null">
+        #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="shijian != null">
+        #{shijian,jdbcType=DATE},
+      </if>
+      <if test="imageId != null">
+        #{imageId,jdbcType=INTEGER},
+      </if>
+      <if test="zhiBiaoFang != null">
+        #{zhiBiaoFang,jdbcType=VARCHAR},
+      </if>
+      <if test="bumen != null">
+        #{bumen,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.i1314i.ourproject.po.javabean.LvHuaMiaoMuExample" resultType="java.lang.Long">
+    select count(*) from lv_hua_miao_mu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update lv_hua_miao_mu
+    <set>
+      <if test="record.miaoMuId != null">
+        miao_mu_id = #{record.miaoMuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mingcheng != null">
+        mingcheng = #{record.mingcheng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.guiGe != null">
+        gui_ge = #{record.guiGe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.danJia != null">
+        dan_jia = #{record.danJia,jdbcType=DOUBLE},
+      </if>
+      <if test="record.beizhu != null">
+        beizhu = #{record.beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shijian != null">
+        shijian = #{record.shijian,jdbcType=DATE},
+      </if>
+      <if test="record.imageId != null">
+        image_id = #{record.imageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.zhiBiaoFang != null">
+        zhi_biao_fang = #{record.zhiBiaoFang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bumen != null">
+        bumen = #{record.bumen,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update lv_hua_miao_mu
+    set miao_mu_id = #{record.miaoMuId,jdbcType=INTEGER},
+      mingcheng = #{record.mingcheng,jdbcType=VARCHAR},
+      gui_ge = #{record.guiGe,jdbcType=VARCHAR},
+      dan_jia = #{record.danJia,jdbcType=DOUBLE},
+      beizhu = #{record.beizhu,jdbcType=VARCHAR},
+      shijian = #{record.shijian,jdbcType=DATE},
+      image_id = #{record.imageId,jdbcType=INTEGER},
+      zhi_biao_fang = #{record.zhiBiaoFang,jdbcType=VARCHAR},
+      bumen = #{record.bumen,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.i1314i.ourproject.po.javabean.LvHuaMiaoMu">
+    update lv_hua_miao_mu
+    <set>
+      <if test="mingcheng != null">
+        mingcheng = #{mingcheng,jdbcType=VARCHAR},
+      </if>
+      <if test="guiGe != null">
+        gui_ge = #{guiGe,jdbcType=VARCHAR},
+      </if>
+      <if test="danJia != null">
+        dan_jia = #{danJia,jdbcType=DOUBLE},
+      </if>
+      <if test="beizhu != null">
+        beizhu = #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="shijian != null">
+        shijian = #{shijian,jdbcType=DATE},
+      </if>
+      <if test="imageId != null">
+        image_id = #{imageId,jdbcType=INTEGER},
+      </if>
+      <if test="zhiBiaoFang != null">
+        zhi_biao_fang = #{zhiBiaoFang,jdbcType=VARCHAR},
+      </if>
+      <if test="bumen != null">
+        bumen = #{bumen,jdbcType=INTEGER},
+      </if>
+    </set>
+    where miao_mu_id = #{miaoMuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.i1314i.ourproject.po.javabean.LvHuaMiaoMu">
+    update lv_hua_miao_mu
+    set mingcheng = #{mingcheng,jdbcType=VARCHAR},
+      gui_ge = #{guiGe,jdbcType=VARCHAR},
+      dan_jia = #{danJia,jdbcType=DOUBLE},
+      beizhu = #{beizhu,jdbcType=VARCHAR},
+      shijian = #{shijian,jdbcType=DATE},
+      image_id = #{imageId,jdbcType=INTEGER},
+      zhi_biao_fang = #{zhiBiaoFang,jdbcType=VARCHAR},
+      bumen = #{bumen,jdbcType=INTEGER}
+    where miao_mu_id = #{miaoMuId,jdbcType=INTEGER}
+  </update>
+
+    <!--自加-->
+    <select id="slectTimes" resultType="java.lang.String">
+        select shijian from lv_hua_miao_mu group by shijian order by shijian desc
+    </select>
+
+
+    <!--自加-->
+    <select id="selectAllName" resultType="java.lang.String">
+         select distinct mingcheng from lv_hua_miao_mu
+    </select>
+
+    <update id="updateWaiJianByShuMing">
+        update lv_hua_miao_mu set image_id=#{1} where mingcheng=#{0}
+    </update>
+</mapper>

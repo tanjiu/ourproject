@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.JuMinShengHuoXiaoFeiPinMapper">
+  <resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.javabean.JuMinShengHuoXiaoFeiPin">
+    <id column="ju_min_sheng_huo_id" jdbcType="INTEGER" property="juMinShengHuoId" />
+    <result column="shangpin_mingcheng" jdbcType="VARCHAR" property="shangpinMingcheng" />
+    <result column="leibie" jdbcType="VARCHAR" property="leibie" />
+    <result column="gui_ge_deng_ji" jdbcType="VARCHAR" property="guiGeDengJi" />
+    <result column="ji_liang_dan_wei" jdbcType="VARCHAR" property="jiLiangDanWei" />
+    <result column="ling_shou_chao_shi_jia_ge" jdbcType="DOUBLE" property="lingShouChaoShiJiaGe" />
+    <result column="ling_shou_ji_shi_jia_ge" jdbcType="DOUBLE" property="lingShouJiShiJiaGe" />
+    <result column="cai_jia_shi_chang" jdbcType="VARCHAR" property="caiJiaShiChang" />
+    <result column="beizhu" jdbcType="VARCHAR" property="beizhu" />
+    <result column="zhi_biao_jie_shi" jdbcType="VARCHAR" property="zhiBiaoJieShi" />
+    <result column="shijian" jdbcType="DATE" property="shijian" />
+    <result column="bumen" jdbcType="INTEGER" property="bumen" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ju_min_sheng_huo_id, shangpin_mingcheng, leibie, gui_ge_deng_ji, ji_liang_dan_wei, 
+    ling_shou_chao_shi_jia_ge, ling_shou_ji_shi_jia_ge, cai_jia_shi_chang, beizhu, zhi_biao_jie_shi, 
+    shijian, bumen
+  </sql>
+  <select id="selectByExample" parameterType="com.i1314i.ourproject.po.javabean.JuMinShengHuoXiaoFeiPinExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ju_min_sheng_huo_xiao_fei_pin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ju_min_sheng_huo_xiao_fei_pin
+    where ju_min_sheng_huo_id = #{juMinShengHuoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ju_min_sheng_huo_xiao_fei_pin
+    where ju_min_sheng_huo_id = #{juMinShengHuoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.i1314i.ourproject.po.javabean.JuMinShengHuoXiaoFeiPinExample">
+    delete from ju_min_sheng_huo_xiao_fei_pin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.i1314i.ourproject.po.javabean.JuMinShengHuoXiaoFeiPin">
+    insert into ju_min_sheng_huo_xiao_fei_pin (ju_min_sheng_huo_id, shangpin_mingcheng, 
+      leibie, gui_ge_deng_ji, ji_liang_dan_wei, 
+      ling_shou_chao_shi_jia_ge, ling_shou_ji_shi_jia_ge, 
+      cai_jia_shi_chang, beizhu, zhi_biao_jie_shi, 
+      shijian, bumen)
+    values (#{juMinShengHuoId,jdbcType=INTEGER}, #{shangpinMingcheng,jdbcType=VARCHAR}, 
+      #{leibie,jdbcType=VARCHAR}, #{guiGeDengJi,jdbcType=VARCHAR}, #{jiLiangDanWei,jdbcType=VARCHAR}, 
+      #{lingShouChaoShiJiaGe,jdbcType=DOUBLE}, #{lingShouJiShiJiaGe,jdbcType=DOUBLE}, 
+      #{caiJiaShiChang,jdbcType=VARCHAR}, #{beizhu,jdbcType=VARCHAR}, #{zhiBiaoJieShi,jdbcType=VARCHAR}, 
+      #{shijian,jdbcType=DATE}, #{bumen,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.i1314i.ourproject.po.javabean.JuMinShengHuoXiaoFeiPin">
+    insert into ju_min_sheng_huo_xiao_fei_pin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="juMinShengHuoId != null">
+        ju_min_sheng_huo_id,
+      </if>
+      <if test="shangpinMingcheng != null">
+        shangpin_mingcheng,
+      </if>
+      <if test="leibie != null">
+        leibie,
+      </if>
+      <if test="guiGeDengJi != null">
+        gui_ge_deng_ji,
+      </if>
+      <if test="jiLiangDanWei != null">
+        ji_liang_dan_wei,
+      </if>
+      <if test="lingShouChaoShiJiaGe != null">
+        ling_shou_chao_shi_jia_ge,
+      </if>
+      <if test="lingShouJiShiJiaGe != null">
+        ling_shou_ji_shi_jia_ge,
+      </if>
+      <if test="caiJiaShiChang != null">
+        cai_jia_shi_chang,
+      </if>
+      <if test="beizhu != null">
+        beizhu,
+      </if>
+      <if test="zhiBiaoJieShi != null">
+        zhi_biao_jie_shi,
+      </if>
+      <if test="shijian != null">
+        shijian,
+      </if>
+      <if test="bumen != null">
+        bumen,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="juMinShengHuoId != null">
+        #{juMinShengHuoId,jdbcType=INTEGER},
+      </if>
+      <if test="shangpinMingcheng != null">
+        #{shangpinMingcheng,jdbcType=VARCHAR},
+      </if>
+      <if test="leibie != null">
+        #{leibie,jdbcType=VARCHAR},
+      </if>
+      <if test="guiGeDengJi != null">
+        #{guiGeDengJi,jdbcType=VARCHAR},
+      </if>
+      <if test="jiLiangDanWei != null">
+        #{jiLiangDanWei,jdbcType=VARCHAR},
+      </if>
+      <if test="lingShouChaoShiJiaGe != null">
+        #{lingShouChaoShiJiaGe,jdbcType=DOUBLE},
+      </if>
+      <if test="lingShouJiShiJiaGe != null">
+        #{lingShouJiShiJiaGe,jdbcType=DOUBLE},
+      </if>
+      <if test="caiJiaShiChang != null">
+        #{caiJiaShiChang,jdbcType=VARCHAR},
+      </if>
+      <if test="beizhu != null">
+        #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="zhiBiaoJieShi != null">
+        #{zhiBiaoJieShi,jdbcType=VARCHAR},
+      </if>
+      <if test="shijian != null">
+        #{shijian,jdbcType=DATE},
+      </if>
+      <if test="bumen != null">
+        #{bumen,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.i1314i.ourproject.po.javabean.JuMinShengHuoXiaoFeiPinExample" resultType="java.lang.Long">
+    select count(*) from ju_min_sheng_huo_xiao_fei_pin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ju_min_sheng_huo_xiao_fei_pin
+    <set>
+      <if test="record.juMinShengHuoId != null">
+        ju_min_sheng_huo_id = #{record.juMinShengHuoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shangpinMingcheng != null">
+        shangpin_mingcheng = #{record.shangpinMingcheng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leibie != null">
+        leibie = #{record.leibie,jdbcType=VARCHAR},
+      </if>
+      <if test="record.guiGeDengJi != null">
+        gui_ge_deng_ji = #{record.guiGeDengJi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jiLiangDanWei != null">
+        ji_liang_dan_wei = #{record.jiLiangDanWei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lingShouChaoShiJiaGe != null">
+        ling_shou_chao_shi_jia_ge = #{record.lingShouChaoShiJiaGe,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lingShouJiShiJiaGe != null">
+        ling_shou_ji_shi_jia_ge = #{record.lingShouJiShiJiaGe,jdbcType=DOUBLE},
+      </if>
+      <if test="record.caiJiaShiChang != null">
+        cai_jia_shi_chang = #{record.caiJiaShiChang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beizhu != null">
+        beizhu = #{record.beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zhiBiaoJieShi != null">
+        zhi_biao_jie_shi = #{record.zhiBiaoJieShi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shijian != null">
+        shijian = #{record.shijian,jdbcType=DATE},
+      </if>
+      <if test="record.bumen != null">
+        bumen = #{record.bumen,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ju_min_sheng_huo_xiao_fei_pin
+    set ju_min_sheng_huo_id = #{record.juMinShengHuoId,jdbcType=INTEGER},
+      shangpin_mingcheng = #{record.shangpinMingcheng,jdbcType=VARCHAR},
+      leibie = #{record.leibie,jdbcType=VARCHAR},
+      gui_ge_deng_ji = #{record.guiGeDengJi,jdbcType=VARCHAR},
+      ji_liang_dan_wei = #{record.jiLiangDanWei,jdbcType=VARCHAR},
+      ling_shou_chao_shi_jia_ge = #{record.lingShouChaoShiJiaGe,jdbcType=DOUBLE},
+      ling_shou_ji_shi_jia_ge = #{record.lingShouJiShiJiaGe,jdbcType=DOUBLE},
+      cai_jia_shi_chang = #{record.caiJiaShiChang,jdbcType=VARCHAR},
+      beizhu = #{record.beizhu,jdbcType=VARCHAR},
+      zhi_biao_jie_shi = #{record.zhiBiaoJieShi,jdbcType=VARCHAR},
+      shijian = #{record.shijian,jdbcType=DATE},
+      bumen = #{record.bumen,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.i1314i.ourproject.po.javabean.JuMinShengHuoXiaoFeiPin">
+    update ju_min_sheng_huo_xiao_fei_pin
+    <set>
+      <if test="shangpinMingcheng != null">
+        shangpin_mingcheng = #{shangpinMingcheng,jdbcType=VARCHAR},
+      </if>
+      <if test="leibie != null">
+        leibie = #{leibie,jdbcType=VARCHAR},
+      </if>
+      <if test="guiGeDengJi != null">
+        gui_ge_deng_ji = #{guiGeDengJi,jdbcType=VARCHAR},
+      </if>
+      <if test="jiLiangDanWei != null">
+        ji_liang_dan_wei = #{jiLiangDanWei,jdbcType=VARCHAR},
+      </if>
+      <if test="lingShouChaoShiJiaGe != null">
+        ling_shou_chao_shi_jia_ge = #{lingShouChaoShiJiaGe,jdbcType=DOUBLE},
+      </if>
+      <if test="lingShouJiShiJiaGe != null">
+        ling_shou_ji_shi_jia_ge = #{lingShouJiShiJiaGe,jdbcType=DOUBLE},
+      </if>
+      <if test="caiJiaShiChang != null">
+        cai_jia_shi_chang = #{caiJiaShiChang,jdbcType=VARCHAR},
+      </if>
+      <if test="beizhu != null">
+        beizhu = #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="zhiBiaoJieShi != null">
+        zhi_biao_jie_shi = #{zhiBiaoJieShi,jdbcType=VARCHAR},
+      </if>
+      <if test="shijian != null">
+        shijian = #{shijian,jdbcType=DATE},
+      </if>
+      <if test="bumen != null">
+        bumen = #{bumen,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ju_min_sheng_huo_id = #{juMinShengHuoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.i1314i.ourproject.po.javabean.JuMinShengHuoXiaoFeiPin">
+    update ju_min_sheng_huo_xiao_fei_pin
+    set shangpin_mingcheng = #{shangpinMingcheng,jdbcType=VARCHAR},
+      leibie = #{leibie,jdbcType=VARCHAR},
+      gui_ge_deng_ji = #{guiGeDengJi,jdbcType=VARCHAR},
+      ji_liang_dan_wei = #{jiLiangDanWei,jdbcType=VARCHAR},
+      ling_shou_chao_shi_jia_ge = #{lingShouChaoShiJiaGe,jdbcType=DOUBLE},
+      ling_shou_ji_shi_jia_ge = #{lingShouJiShiJiaGe,jdbcType=DOUBLE},
+      cai_jia_shi_chang = #{caiJiaShiChang,jdbcType=VARCHAR},
+      beizhu = #{beizhu,jdbcType=VARCHAR},
+      zhi_biao_jie_shi = #{zhiBiaoJieShi,jdbcType=VARCHAR},
+      shijian = #{shijian,jdbcType=DATE},
+      bumen = #{bumen,jdbcType=INTEGER}
+    where ju_min_sheng_huo_id = #{juMinShengHuoId,jdbcType=INTEGER}
+  </update>
+    <!--自加-->
+    <select id="selectTypeOne" resultMap="BaseResultMap">
+        SELECT * FROM ju_min_sheng_huo_xiao_fei_pin WHERE shangpin_mingcheng=#{mingcheng} LIMIT 1
+    </select>
+
+    <!--自加-->
+    <select id="slectTimes" resultType="java.lang.String">
+        select shijian from ju_min_sheng_huo_xiao_fei_pin group by shijian order by shijian desc
+    </select>
+</mapper>

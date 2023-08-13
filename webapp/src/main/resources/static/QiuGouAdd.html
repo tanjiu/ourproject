@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>求购信息</title>
+    <script src="js/jquery-1.10.2.js"></script>
+</head>
+<body>
+<form>
+    <p>产品名称</p>  <input type="text" name="chanPinMingCheng" id="chanPinMingCheng"><br/>
+    <p>发布人</p>  <input type="text" name="faBuRen" id="faBuRen"><br/>
+    <p>采购量</p>  <input type="text" name="caiGouLiang" id="caiGouLiang"><br/>
+    <p>品种</p>  <input type="text" name="pinZhong" id="pinZhong"><br/>
+    <p>期望价格</p>  <input type="text" name="price" id="price">
+    <p>联系方式</p>  <input type="text" name="tel" id="tel"><br/>
+    <p>货源地址</p>  <input type="text" name="huoYuanDiZhi" id="huoYuanDiZhi"><br/>
+    <button type="button" value="提交" id="sub">提交</button>
+</form>
+</body>
+</html>
+<script>
+    $(function () {
+        $("#sub").click(function () {
+            var data = $("form").serialize();
+            var chanPinMingCheng = $("#chanPinMingCheng").val();
+            var faBuRen = $("#faBuRen").val();
+            var caiGouLiang = $("#caiGouLiang").val();
+            var pinZhong = $("#pinZhong").val();
+            var price = $("#price").val();
+            var tel = $("#tel").val();
+            var huoYuanDiZhi = $("#huoYuanDiZhi").val();
+            var Data_edit = {
+                chanPinMingCheng: chanPinMingCheng,
+                faBuRen: faBuRen,
+                caiGouLiang: caiGouLiang,
+                pinZhong: pinZhong,
+                price: price,
+                tel: tel,
+                huoYuanDiZhi: huoYuanDiZhi
+            };
+
+            $.ajax({
+                type: 'post',
+                url: "http://localhost:8081/qgxxc/insertapc",
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                cache: false,
+                data: JSON.stringify(Data_edit),
+                success: function (data) {//返回json结果
+                    window.location.reload();
+                },
+                error: function (error) {
+                    alert(error);
+                },
+            });
+        });
+    });
+
+</script>

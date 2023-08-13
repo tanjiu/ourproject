@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>人才招聘</title>
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="Ckeditor/ckeditor/ckeditor.js"></script>
+</head>
+<body>
+<form>
+    <p>职位</p>  <input type="text" name="zhiwei" id="zhiwei"><br/>
+    <p>性别</p> <input type="radio" name="sex" value="男"/> 男<br/>
+    <input type="radio" name="sex" value="女"/> 女<br/><br/>
+    <p>最低年龄</p>  <input type="text" name="minAge" id="minAge"><br/>
+    <p>最高年龄</p>  <input type="text" name="maxAge" id="maxAge"><br/>
+    <p>截至时间</p>  <input type="text" name="time" id="time"><br/>
+    <p>招聘人数</p>  <input type="text" name="zhaoPinRenShu" id="zhaoPinRenShu"><br/>
+    <p>联系电话</p>  <input type="text" name="tel" id="tel"><br/>
+    <p>薪资待遇</p>  <input type="text" name="minXinZiDaiYu" id="minXinZiDaiYu">-----
+    <input type="text" name="maxXinZiDaiYu" id="maxXinZiDaiYu">
+    <br/>
+    <p>学历</p> <select id="xueli">
+    <option value="初中">初中</option>
+    <option value="高中">高中</option>
+    <option value="中专">中专</option>
+    <option value="专科">专科</option>
+    <option value="本科">本科</option>
+    <option value="研究生及以上">研究生及以上</option>
+</select>
+    <p>工作地点</p>  <input type="text" name="gongZuoDiDian" id="gongZuoDiDian"><br/>
+    <p>工作简介</p> <textarea id='gongZuoJianJie' name="gongZuoJianJie"></textarea>
+    <button type="button" value="提交" id="sub">提交</button>
+</form>
+</body>
+</html>
+<script>
+    CKEditor = CKEDITOR.replace('gerenjianjie');
+    $(function () {
+        $("#sub").click(function () {
+            var data = $("form").serialize();
+
+            var zhiwei = $("#zhiwei").val();
+            var sex=$('input:radio:checked').val();
+            var maxAge = $("#maxAge").val();
+            var time = $("#time").val();
+            var zhaoPinRenShu = $("#zhaoPinRenShu").val();
+            var tel = $("#tel").val();
+            var minXinZiDaiYu = $("#minXinZiDaiYu").val();
+
+            var maxXinZiDaiYu = $("#maxXinZiDaiYu").val();
+            var xueli = $("#xueli").val();
+            var gongZuoDiDian = $("#gongZuoDiDian").val();
+
+            var gongZuoJianJie = CKEDITOR.instances.gongZuoJianJie.getData();
+
+            var Data_edit = {
+                zhiwei: zhiwei,
+                sex: sex,
+                maxAge: maxAge,
+                time: time,
+                zhaoPinRenShu: zhaoPinRenShu,
+                tel: tel,
+                minXinZiDaiYu: minXinZiDaiYu,
+                maxXinZiDaiYu: maxXinZiDaiYu,
+                xueli:xueli,
+                gongZuoDiDian:gongZuoDiDian,
+                gongZuoJianJie:gongZuoJianJie,
+                shenhe:"false"
+            };
+
+            $.ajax({
+                type: 'post',
+                url: "http://localhost:8081/rczpc/insertapc",
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                cache: false,
+                data: JSON.stringify(Data_edit),
+                success: function (data) {//返回json结果
+                    window.location.reload();
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        });
+    });
+</script>

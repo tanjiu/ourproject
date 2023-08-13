@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.MapUrlMangerMapper">
+
+	<resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.ditu.MapUrlManger">
+
+		<collection property="child" ofType="com.i1314i.ourproject.po.ditu.MapUrlManger" select="findChildByPid" column="id"></collection>
+
+
+	</resultMap>
+
+	<select id="updateMap" resultType="com.i1314i.ourproject.po.ditu.MapUrlManger" parameterType="com.i1314i.ourproject.po.ditu.MapUrlManger">
+		UPDATE mapurl_manger SET href=#{href}
+		<if test="cname!=null">
+			,cname=#{cname}
+		</if>
+		<if test="ename!=null">
+			,ename=#{ename}
+		</if>
+		<if test="desc!=null">
+			,descs=#{desc}
+		</if>
+		<if test="pid!=null">
+			,pid=#{pid}
+		</if>
+		WHERE id=#{id};
+	</select>
+
+	<select id="deleteMap" resultMap="BaseResultMap" parameterType="com.i1314i.ourproject.po.ditu.MapUrlManger">
+		DELETE  FROM  mapurl_manger WHERE id=#{id};
+	</select>
+
+	<select id="findById" resultMap="BaseResultMap"  parameterType="com.i1314i.ourproject.po.ditu.MapUrlManger">
+		SELECT * from mapurl_manger where id=#{id};
+	</select>
+	
+	<select id="findChildByPid" parameterType="java.lang.Integer"  resultType="com.i1314i.ourproject.po.ditu.MapUrlManger">
+		select * from mapurl_manger where pid=#{id};
+	</select>
+</mapper>

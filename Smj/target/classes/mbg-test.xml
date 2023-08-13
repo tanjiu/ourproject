@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!-- 逆向工程生成时不生成注释代码 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 配置数据库连接信息 -->
+        <jdbcConnection driverClass="org.postgresql.Driver"
+                        connectionURL="jdbc:postgresql://115.159.205.140:5433/postgres"
+                        userId="postgres"
+                        password="Zhan1234">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 指定javaBean生成的位置 -->
+        <javaModelGenerator targetPackage="com.i1314i.ourproject.po.javabean"
+                            targetProject="Smj">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- sql映射文件的生成位置 -->
+        <sqlMapGenerator targetPackage="mapping"
+                         targetProject="Smj">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- 指定dao接口生成的位置,mapper接口 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.i1314i.ourproject.mapper"
+                             targetProject="Smj">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 指定每个表的生成策略 -->
+        <!--<table tableName="agricultural_policy" ></table>-->
+        <!--<table tableName="agricultural_subsidies"></table>-->
+        <!--<table tableName="basica_farmland" ></table>-->
+        <!--<table tableName="brief_instruction" ></table>-->
+        <!--<table tableName="farms" ></table>-->
+        <!--<table tableName="hudong" ></table>-->
+        <!--<table tableName="job_wanted" ></table>-->
+        <!--<table tableName="ju_min_sheng_huo_xiao_fei_pin" ></table>-->
+        <!--<table tableName="management_enterprises" ></table>-->
+        <!--<table tableName="nong_ye_sheng_chan_zi_liao" ></table>-->
+        <!--<table tableName="planting_structure" ></table>-->
+        <!--<table tableName="precipitation_monitoring" ></table>-->
+        <!--<table tableName="product_price" ></table>-->
+        <!--<table tableName="production_enterprises" ></table>-->
+        <!--<table tableName="recruit" ></table>-->
+        <!--<table tableName="reservoir" ></table>-->
+        <!--<table tableName="slaughter_house" ></table>-->
+        <!--<table tableName="soil_nutrient_content" ></table>-->
+        <!--<table tableName="soil_type_distribution" ></table>-->
+        <!--<table tableName="subsidized_object" ></table>-->
+
+
+        <!--<table tableName="lv_hua_miao_mu" ></table>-->
+        <!--<table tableName="hui_nong_image" ></table>-->
+        <table tableName="qiu_gou_xin_xi"></table>
+        <table tableName="gong_ying_xin_xi"></table>
+        <table tableName="ren_cai_zhao_pin"></table>
+        <table tableName="ren_cai_qiu_zhi"></table>
+        <!--<table tableName="gong_zuo_di_dian" ></table>-->
+
+
+    </context>
+</generatorConfiguration>

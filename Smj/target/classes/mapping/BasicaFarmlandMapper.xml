@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.BasicaFarmlandMapper">
+  <resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.javabean.BasicaFarmland">
+    <id column="nongtian_id" jdbcType="VARCHAR" property="nongtianId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="area" jdbcType="DOUBLE" property="area" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="quanshu_danwei" jdbcType="VARCHAR" property="quanshuDanwei" />
+    <result column="quanshu_xingzhi" jdbcType="VARCHAR" property="quanshuXingzhi" />
+    <result column="zulinren" jdbcType="VARCHAR" property="zulinren" />
+    <result column="zhengshu" jdbcType="VARCHAR" property="zhengshu" />
+    <result column="liuzhuanqingkuang" jdbcType="VARCHAR" property="liuzhuanqingkuang" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    nongtian_id, type, name, area, location, quanshu_danwei, quanshu_xingzhi, zulinren, 
+    zhengshu, liuzhuanqingkuang
+  </sql>
+  <select id="selectByExample" parameterType="com.i1314i.ourproject.po.javabean.BasicaFarmlandExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from basica_farmland
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from basica_farmland
+    where nongtian_id = #{nongtianId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from basica_farmland
+    where nongtian_id = #{nongtianId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.i1314i.ourproject.po.javabean.BasicaFarmlandExample">
+    delete from basica_farmland
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.i1314i.ourproject.po.javabean.BasicaFarmland">
+    insert into basica_farmland (nongtian_id, type, name, 
+      area, location, quanshu_danwei, 
+      quanshu_xingzhi, zulinren, zhengshu, 
+      liuzhuanqingkuang)
+    values (#{nongtianId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{area,jdbcType=DOUBLE}, #{location,jdbcType=VARCHAR}, #{quanshuDanwei,jdbcType=VARCHAR}, 
+      #{quanshuXingzhi,jdbcType=VARCHAR}, #{zulinren,jdbcType=VARCHAR}, #{zhengshu,jdbcType=VARCHAR}, 
+      #{liuzhuanqingkuang,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.i1314i.ourproject.po.javabean.BasicaFarmland">
+    insert into basica_farmland
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="nongtianId != null">
+        nongtian_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="quanshuDanwei != null">
+        quanshu_danwei,
+      </if>
+      <if test="quanshuXingzhi != null">
+        quanshu_xingzhi,
+      </if>
+      <if test="zulinren != null">
+        zulinren,
+      </if>
+      <if test="zhengshu != null">
+        zhengshu,
+      </if>
+      <if test="liuzhuanqingkuang != null">
+        liuzhuanqingkuang,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="nongtianId != null">
+        #{nongtianId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=DOUBLE},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="quanshuDanwei != null">
+        #{quanshuDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="quanshuXingzhi != null">
+        #{quanshuXingzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="zulinren != null">
+        #{zulinren,jdbcType=VARCHAR},
+      </if>
+      <if test="zhengshu != null">
+        #{zhengshu,jdbcType=VARCHAR},
+      </if>
+      <if test="liuzhuanqingkuang != null">
+        #{liuzhuanqingkuang,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.i1314i.ourproject.po.javabean.BasicaFarmlandExample" resultType="java.lang.Long">
+    select count(*) from basica_farmland
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update basica_farmland
+    <set>
+      <if test="record.nongtianId != null">
+        nongtian_id = #{record.nongtianId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.area != null">
+        area = #{record.area,jdbcType=DOUBLE},
+      </if>
+      <if test="record.location != null">
+        location = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quanshuDanwei != null">
+        quanshu_danwei = #{record.quanshuDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quanshuXingzhi != null">
+        quanshu_xingzhi = #{record.quanshuXingzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zulinren != null">
+        zulinren = #{record.zulinren,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zhengshu != null">
+        zhengshu = #{record.zhengshu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liuzhuanqingkuang != null">
+        liuzhuanqingkuang = #{record.liuzhuanqingkuang,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update basica_farmland
+    set nongtian_id = #{record.nongtianId,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      area = #{record.area,jdbcType=DOUBLE},
+      location = #{record.location,jdbcType=VARCHAR},
+      quanshu_danwei = #{record.quanshuDanwei,jdbcType=VARCHAR},
+      quanshu_xingzhi = #{record.quanshuXingzhi,jdbcType=VARCHAR},
+      zulinren = #{record.zulinren,jdbcType=VARCHAR},
+      zhengshu = #{record.zhengshu,jdbcType=VARCHAR},
+      liuzhuanqingkuang = #{record.liuzhuanqingkuang,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.i1314i.ourproject.po.javabean.BasicaFarmland">
+    update basica_farmland
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=DOUBLE},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="quanshuDanwei != null">
+        quanshu_danwei = #{quanshuDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="quanshuXingzhi != null">
+        quanshu_xingzhi = #{quanshuXingzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="zulinren != null">
+        zulinren = #{zulinren,jdbcType=VARCHAR},
+      </if>
+      <if test="zhengshu != null">
+        zhengshu = #{zhengshu,jdbcType=VARCHAR},
+      </if>
+      <if test="liuzhuanqingkuang != null">
+        liuzhuanqingkuang = #{liuzhuanqingkuang,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nongtian_id = #{nongtianId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.i1314i.ourproject.po.javabean.BasicaFarmland">
+    update basica_farmland
+    set type = #{type,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      area = #{area,jdbcType=DOUBLE},
+      location = #{location,jdbcType=VARCHAR},
+      quanshu_danwei = #{quanshuDanwei,jdbcType=VARCHAR},
+      quanshu_xingzhi = #{quanshuXingzhi,jdbcType=VARCHAR},
+      zulinren = #{zulinren,jdbcType=VARCHAR},
+      zhengshu = #{zhengshu,jdbcType=VARCHAR},
+      liuzhuanqingkuang = #{liuzhuanqingkuang,jdbcType=VARCHAR}
+    where nongtian_id = #{nongtianId,jdbcType=VARCHAR}
+  </update>
+</mapper>

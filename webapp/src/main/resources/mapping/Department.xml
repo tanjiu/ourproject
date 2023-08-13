@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.DepartmentMapper">
+
+	<resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.department.Department">
+		<id column="department_id" jdbcType="VARCHAR" property="departmentId" />
+		<result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+		<result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+
+	</resultMap>
+	<sql id="departmentTableName">
+		sys_department
+	</sql>
+
+
+	<select id="findAllDepartmentList" resultMap="BaseResultMap">
+	SELECT * from <include refid="departmentTableName"/>
+</select>
+
+	<select id="findDepartmentById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT * from <include refid="departmentTableName"/>
+			WHERE department_id=#{departmentId}
+
+	</select>
+
+
+	<select id="listParents" resultMap="BaseResultMap">
+		SELECT * from <include refid="departmentTableName"/>
+	</select>
+
+
+	<select id="listByParent" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT * FROM <include refid="departmentTableName"/> WHERE parent_id=#{parentId}
+	</select>
+
+
+	<select id="saveDepartment" parameterType="com.i1314i.ourproject.po.department.Department" resultType="java.lang.Integer">
+		update <include refid="departmentTableName"/> t set parent_id = #{parentId}, department_name = #{departmentName}
+		<if test="type!=null">
+			, type = #{type}
+		</if>
+
+		where t.department_id = #{departmentId}
+	</select>
+
+
+	<insert id="insertDepartment" parameterType="com.i1314i.ourproject.po.department.Department">
+		INSERT INTO <include refid="departmentTableName"/>  (department_id,department_name ,parent_id,type)VALUES (#{departmentId},#{departmentName},#{parentId},1)
+
+	</insert>
+</mapper>

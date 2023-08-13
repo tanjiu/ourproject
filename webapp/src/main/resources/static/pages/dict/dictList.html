@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <script src="../../filter.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">
+    <script src="../../filter.js"></script>
+<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div>
+                <header style="height: 100%">
+                    <div align="left">
+	                    <table style="width: 100%">
+	                   		<tr>
+	                   			<td>
+		                   			<form class="form-inline" onsubmit="return false">
+										<div class="form-group">
+											type：
+											<input id="type" type="text" class="form-control" placeholder="type">
+											<button id="searchBt" class="layui-btn layui-btn-sm" permission="dict:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+										</div>
+									</form>
+	                   			</td>
+	                   			<td align="right">
+	                   				<button class="layui-btn layui-btn-sm" onclick="add()" permission="dict:add">
+                                      <i class="layui-icon">&#xe608;</i> 添加
+                                    </button>
+	                   			</td>
+	                   		</tr> 
+	                    </table>
+					</div>
+                </header>
+
+
+                <div>
+                    <div class="widget-body no-padding">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="150">
+                                <col width="200">
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>type</th>
+                                <th>k</th>
+                                <th>val</th>
+                                <th>createTime</th>
+                                <th>updateTime</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody"></tbody>
+                        </table>
+                        <div id="pageBean"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript">
+var pers = checkPermission();
+var tableobj;
+getData(1,10);
+layui.use([ 'layer','laypage' ], function() {
+    var layer = layui.layer;
+    var laypage = layui.laypage;
+
+    var tablelimit;
+    $.ajax({
+        type : 'POST',
+        url : baseUrl()+'/api/dicts/dictsList',
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            // Accept: "application/json; charset=utf-8",
+            token:getToken()
+        },
+        data : JSON.stringify({
+            type:$("#type").val(),
+            currentPage:1,
+            pageSize:10
+        }),
+        success : function(data) {
+            if(data.code=="200"){
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'pageBean'
+                    ,count: data.data.total //数据总数，从服务端得到
+                    ,jump: function(obj, first){
+                        //首次不执行
+                        tableobj=obj;
+                        if(!first){
+                            getData(obj.curr,obj.limit);
+                            //do something
+                        }
+                    }
+                });
+            }
+
+            console.log(JSON.stringify(data));
+        }
+    });
+
+
+
+
+});
+var datacount;
+
+function getData(curr,limit) {
+    $.ajax({
+        type : 'POST',
+        url : baseUrl()+'/api/dicts/dictsList',
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            // Accept: "application/json; charset=utf-8",
+            token:getToken()
+        },
+        data : JSON.stringify({
+            type:$("#type").val(),
+            currentPage:curr,
+            pageSize:limit
+        }),
+        success : function(data) {
+            if(data.code=="200"){
+                datacount=data.data.total;
+                var dataList=data.data.list;
+                $("#tbody").empty();
+                $.each(dataList,function(i,n){
+
+                    $("#tbody").append('<tr id="user_'+n.id+'">');
+                    $("#tbody").append('<td>'+getMsgNull(n.id)+'</td>');
+                    $("#tbody").append('<td>'+getMsgNull(n.type)+'</td>');
+                    $("#tbody").append('<td>'+getMsgNull(n.k)+'</td>');
+                    $("#tbody").append('<td>'+getMsgNull(n.val)+'</td>');
+                    $("#tbody").append('<td>'+getMsgNull(n.createTimeFormat)+'</td>');
+                    $("#tbody").append('<td>'+getMsgNull(n.updateTimeFormat)+'</td>');
+                    var href = "updateDict.html?id=" + n.id;
+                    var edit = buttonEdit(href, "dict:add", pers);
+                    var del = buttonDel(n.id, "dict:del", pers);
+                    $("#tbody").append('<td>'+edit+del+'</td>');
+                    $("#tbody").append("</tr>");
+                });
+            }
+            console.log(JSON.stringify(data));
+        }
+    });
+}
+
+
+function add() {
+    layer.open({
+        type: 2,
+        title: '添加 字典',
+        shadeClose: true,
+        shade: false,
+        maxmin: true, //开启最大化最小化按钮
+        area: ['80%', '80%'],
+        content: ['addDict.html', 'yes']
+    });
+}
+
+function del(id){
+	layer.confirm('确定要删除吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+    	$.ajax({
+            type : 'delete',
+            url : baseUrl()+'/api/dicts/'+id,
+            headers: {
+                // Accept: "application/json; charset=utf-8",
+                token:getToken()
+            },
+            success : function(data) {
+                layer.msg("删除成功");
+                getData(tableobj.curr,tableobj.limit);
+            }
+        });
+        
+        layer.close(1);
+    });
+}
+
+$("#searchBt").click(function(){
+    getData(0,10);
+});
+</script>

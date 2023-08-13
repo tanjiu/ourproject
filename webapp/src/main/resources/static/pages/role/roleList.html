@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+    <script src="../../filter.js"></script>
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <header style="height: 100%">
+                    <div align="left">
+	                    <table style="width: 100%">
+	                   		<tr>
+	                   			<td>
+		                   			<form class="form-inline" onsubmit="return false">
+										<div class="form-group">
+											角色：
+											<input id="name" type="text" class="form-control" placeholder="角色">
+											<button id="searchBt" class="layui-btn layui-btn-sm" permission="sys:role:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+										</div>
+									</form>
+	                   			</td>
+	                   			<td align="right">
+	                   				<button class="layui-btn layui-btn-sm" onclick="javascript:getEdit('addRole.html'); " permission="sys:role:add">
+                                        <!--location.href='addRole.html'-->
+                                      <i class="layui-icon">&#xe608;</i> 添加
+                                    </button>
+	                   			</td>
+	                   		</tr> 
+	                    </table>
+					</div>
+                </header>
+                
+                <div>
+                    <div class="widget-body no-padding">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="150">
+                                <col width="200">
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>角色</th>
+                                <th>描述</th>
+                                <th style="width: 20%">修改时间</th>
+                                <th style="width: 10%">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody"></tbody>
+                        </table>
+                        <div id="pageBean"></div>
+                        <!--<table id="dt-table" class="table table-striped table-bordered table-hover" style="width:100%">-->
+                            <!--<thead>-->
+                                <!--<tr>-->
+                                <!--</tr>                       -->
+                                <!--<tr>-->
+                                    <!--<th style="width: 20%">角色</th>-->
+									<!--<th>描述</th>-->
+									<!--<th style="width: 20%">修改时间</th>-->
+									<!--<th style="width: 10%">操作</th>-->
+                                <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript">
+var pers = checkPermission();
+var tableobj;
+getData(1,10);
+layui.use('laypage', function(){
+    var laypage = layui.laypage;
+
+
+    var datacount;
+    $.ajax({
+        type : 'post',
+        url : '/api/roles/roleList',
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            // Accept: "application/json; charset=utf-8",
+            token:getToken()
+        },
+        data : JSON.stringify({
+            name:$("#name").val(),
+            currentPage:1,
+            pageSize:10
+        }),
+        success : function(data) {
+            if(data.code=="200"){
+
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'pageBean'
+                    ,count: data.data.total //数据总数，从服务端得到
+                    ,jump: function(obj, first){
+                        tableobj=obj;
+                        //首次不执行
+                        if(!first){
+                            getData(obj.curr,obj.limit);
+                            //do something
+                        }
+                    }
+                });
+            }
+
+            console.log(JSON.stringify(data));
+        }
+    });
+
+
+
+
+    function crtTimeFtt(value,row,index){
+        var crtTime = new Date(value);
+        return top.dateFtt("yyyy-MM-dd hh:mm:ss",crtTime);//直接调用公共JS里面的时间类处理的办法
+    }
+
+});
+
+function getData(curr,limit) {
+    $.ajax({
+        type : 'post',
+        url : '/api/roles/roleList',
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            // Accept: "application/json; charset=utf-8",
+            token:getToken()
+        },
+        data : JSON.stringify({
+            name:$("#name").val(),
+            currentPage:curr,
+            pageSize:limit
+        }),
+        success : function(data) {
+            if(data.code=="200"){
+                datacount=data.data.total;
+                var dataList=data.data.list;
+                $("#tbody").empty();
+                $.each(dataList,function(i,n){
+
+                    $("#tbody").append('<tr id="role_'+n.id+'">');
+                    $("#tbody").append('<td>'+n.name+'</td>');
+                    $("#tbody").append('<td>'+n.description+'</td>');
+                    $("#tbody").append('<td>'+n.updateTimeFormat+'</td>');
+
+                    var href = "addRole.html?id=" + n.id;
+                    var edit = buttonEdit(href, "sys:role:add", pers);
+                    var del = buttonDel(n.id, "sys:role:del", pers);
+                    $("#tbody").append('<td>'+edit+del+'</td>');
+                    $("#tbody").append("</tr>");
+                });
+            }
+            console.log(JSON.stringify(data));
+        }
+    });
+}
+
+
+
+
+function init(){
+
+}
+
+layui.use('layer', function(){
+    var layer = layui.layer;
+});
+
+function del(id){
+    layer.confirm('确定要删除吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            type : 'delete',
+            url : '/api/roles/'+id,
+            headers: {
+                // Accept: "application/json; charset=utf-8",
+                token:getToken()
+            },
+            success : function(data) {
+                layer.msg("删除成功");
+
+                getData(tableobj.curr,tableobj.limit);
+
+            }
+        });
+        
+        layer.close(1);
+    });
+}
+
+$("#searchBt").click(function(){
+     getData(1,10);
+});
+
+init();
+</script>

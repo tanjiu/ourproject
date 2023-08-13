@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>作业调度</title>
+
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+    <script src="../../filter.js"></script>
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <header style="height: 100%">
+                    <div align="left">
+	                    <table style="width: 100%">
+	                   		<tr>
+	                   			<td>
+		                   			<form class="form-inline" onsubmit="return false">
+										<div class="form-group">
+                                            任务名称：
+											<input id="description" type="text" class="form-control" placeholder="任务名称">
+											<select class="form-control input-sm" id="status">
+                                                <option value="ALL">全部</option>
+												<option value="NORMAL">正常运行</option>
+												<option value="PAUSED">暂停状态</option>
+                                                <option value="COMPLETE">完成状态</option>
+                                                <option value="ERROR">错误状态</option>
+                                                <option value="BLOCKED">阻塞状态</option>
+												<option value="NONE">未知状态</option>
+											</select>
+											<button id="searchBt" class="layui-btn layui-btn-sm" permission="sys:quartz:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+										</div>
+									</form>
+	                   			</td>
+	                   			<td align="right">
+	                   				<button class="layui-btn layui-btn-sm" onclick="javascript:getEdit('addJob.html');" permission="sys:quartz:add">
+                                      <i class="layui-icon">&#xe608;</i> 添加
+                                    </button>
+	                   			</td>
+	                   		</tr> 
+	                    </table>
+					</div>
+                </header>
+                
+                <div>
+                    <div class="widget-body no-padding">
+
+                        <table class="layui-table" style="width:100%">
+                            <colgroup>
+                                <col width="150">
+                                <col width="200">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <!--<th>id</th>-->
+                                <th>任务组名称</th>
+                                <th>任务名称</th>
+                                <th>cron表达式</th>
+                                <th>bean名</th>
+                                <th>上次运行时间</th>
+                                <th>下次运行时间</th>
+                                <th >开始时间</th>
+                                <th >结束时间</th>
+                                <th>状态</th>
+                                <th style="width: 10%">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody"></tbody>
+                        </table>
+                        <div id="pageBean"></div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript">
+var pers = checkPermission();
+var tableobj;
+getData('NORMAL',1,10);
+
+function init(){
+
+}
+
+layui.use(['laypage','layer'], function(){
+    var laypage = layui.laypage;
+    var layer = layui.layer;
+
+
+    $.ajax({
+        type : 'GET',
+        url : baseUrl()+'/api/quartz/list/'+$("#status").val()+'/1/10',
+        headers: {
+            // Accept: "application/json; charset=utf-8",
+            token:getToken()
+        },
+        data:{
+            jobName:$("#description").val()
+        },
+        success : function(data) {
+            if(data.code=="200"){
+
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'pageBean'
+                    ,count: data.data.total //数据总数，从服务端得到
+                    ,jump: function(obj, first){
+                        tableobj=obj;
+                        //首次不执行
+                        if(!first){
+                            getData($("#status").val(),obj.curr,obj.limit);
+                            //do something
+                        }
+                    }
+                });
+            }
+
+            console.log(JSON.stringify(data));
+        }
+    });
+
+});
+
+function getData(status,curr,limit) {
+    $.ajax({
+        type : 'get',
+        url : baseUrl()+'/api/quartz/list/'+status+'/'+curr+'/'+limit,
+        headers: {
+            // Accept: "application/json; charset=utf-8",
+            token:getToken()
+        },
+        data:{
+        jobName:$("#description").val()
+    },
+        success : function(data) {
+            if(data.code=="200"){
+                datacount=data.data.total;
+                var dataList=data.data.items;
+                $("#tbody").empty();
+                $.each(dataList,function(i,n){
+                    $("#tbody").append('<tr id="job_'+n.jobId+'">');
+//                    $("#tbody").append('<td>'+n.jobId+'</td>');
+                    $("#tbody").append('<td>'+n.jobGroup+'</td>');
+                    $("#tbody").append('<td>'+n.jobName+'</td>');
+                    $("#tbody").append('<td>'+n.cronExpr+'</td>');
+                    $("#tbody").append('<td>'+n.jobClass+'</td>');
+                    $("#tbody").append('<td>'+Todate(n.previousFireTime)+'</td>');
+                    $("#tbody").append('<td>'+Todate(n.nextFireTime)+'</td>');
+                    $("#tbody").append('<td>'+Todate(n.startTime)+'</td>');
+                    $("#tbody").append('<td>'+Todate(n.endTime)+'</td>');
+                    $("#tbody").append('<td>'+jobStatus(n.jobStatus)+'</td>');
+                    var href = "updateJob.html?id=" + n.jobName+"$!"+n.jobGroup+"$!"+n.triggerName+"$!"+n.triggerGroupName+"$!"+n.jobClass+"$!"+n.cronExpr;
+                    var edit = buttonEdit(href, "sys:quartz:add", pers);
+                    var del = buttonDel(n.jobName+"$!"+n.jobGroup+"$!"+n.triggerName+"$!"+n.triggerGroupName+"$!"+n.jobClass, "sys:quartz:del", pers);
+                    $("#tbody").append('<td>'+edit+del+'</td>');
+                    $("#tbody").append("</tr>");
+                });
+            }else {
+                layer.msg("获取调度任务失败");
+            }
+        }
+    });
+}
+
+
+function jobStatus(status) {
+    var m = new Map();
+    m.set("NONE","未知");
+    m.set("NORMAL","正常运行");
+    m.set("PAUSED","暂停状态");
+    m.set("COMPLETE","完成状态");
+    m.set("ERROR","错误状态");
+    m.set("BLOCKED","阻塞状态");
+    return m.get(status.toLocaleUpperCase());
+}
+
+
+function del(id){
+
+    var ids=id.split("$!");
+
+    layer.confirm('确定要取消吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            type : 'delete',
+            contentType: "application/json; charset=utf-8",
+            url : '/api/quartz',
+            headers: {
+                // Accept: "application/json; charset=utf-8",
+                token:getToken()
+            },
+            data:JSON.stringify({
+                jobName:ids[0],
+                jobGroup:ids[1],
+                triggerName:ids[2],
+                triggerGroupName:ids[3],
+                jobClass:ids[4]
+            }),
+            success : function(data) {
+                if(data.code=="200"){
+                    layer.msg("删除成功");
+                    getData($("#status").val(),tableobj.curr,tableobj.limit);
+                }else {
+                    layer.msg("删除失败");
+                }
+
+            }
+        });
+        
+        layer.close(1);
+    });
+}
+
+$("#searchBt").click(function(){
+    getData($("#status").val(),1,10);
+});
+
+init();
+</script>

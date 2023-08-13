@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script src="../../filter.js"></script>
+	<script>
+        filter(['sys:view:userManger']);
+	</script>
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <header style="height: 100%">
+                    <div align="left">
+	                    <table style="width: 100%">
+	                   		<tr>
+	                   			<td>
+									<form class="form-inline" onsubmit="return false">
+										<div class="form-group">
+											用户名：
+											<input id="username" type="text" class="form-control" placeholder="用户名">
+											昵称：
+											<input id="nickname" type="text" class="form-control" placeholder="昵称">
+											状态：
+											<select class="form-control input-sm" id="status">
+												<option value="">全部</option>
+												<option value="1">正常</option>
+												<option value="2">锁定</option>
+												<option value="3">无效</option>
+											</select>
+											<button id="searchBt" class="layui-btn layui-btn-sm" permission="sys:user:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+										</div>
+									</form>
+								</td>
+								<td align="right">
+	                   				<button class="layui-btn layui-btn-sm" onclick="javascript:getEdit('addUser.html');" permission="sys:user:add">
+                                      <i class="layui-icon">&#xe608;</i> 添加
+                                    </button>
+	                   			</td>
+	                   		</tr> 
+	                    </table>
+					</div>
+                </header>
+
+			<div>
+				<div class="widget-body no-padding">
+					<table class="layui-table">
+						<colgroup>
+							<col width="150">
+							<col width="200">
+							<col>
+						</colgroup>
+						<thead>
+						<tr>
+							<th>用户名</th>
+							<th>昵称</th>
+							<th style="width: 20%">手机号</th>
+							<th style="width: 10%">状态</th>
+							<th style="width: 10%">操作</th>
+						</tr>
+						</thead>
+						<tbody id="tbody"></tbody>
+					</table>
+					<div id="pageBean"></div>
+					<!--<table id="dt-table" class="table table-striped table-bordered table-hover" style="width:100%">-->
+					<!--<thead>-->
+					<!--<tr>-->
+					<!--</tr>                       -->
+					<!--<tr>-->
+					<!--<th style="width: 20%">角色</th>-->
+					<!--<th>描述</th>-->
+					<!--<th style="width: 20%">修改时间</th>-->
+					<!--<th style="width: 10%">操作</th>-->
+					<!--</tr>-->
+					<!--</thead>-->
+					<!--<tbody>-->
+					<!--</tbody>-->
+					<!--</table>-->
+				</div>
+			</div>
+
+
+
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/dict.js"></script>
+<script type="text/javascript">
+    getData(1,10);
+    var tableobj;
+layui.use([ 'layer','laypage' ], function() {
+	var layer = layui.layer;
+    var laypage = layui.laypage;
+
+    $.ajax({
+        type : 'POST',
+        url : '/api/users/userList',
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            // Accept: "application/json; charset=utf-8",
+            token:getToken()
+        },
+        data : JSON.stringify({
+            currentPage:1,
+            pageSize:10
+        }),
+        success : function(data) {
+            if(data.code=="200"){
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'pageBean'
+                    ,count: data.data.total //数据总数，从服务端得到
+                    ,jump: function(obj, first){
+                        tableobj=obj;
+                        //obj包含了当前分页的所有参数，比如：
+                        console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                        console.log(obj.limit); //得到每页显示的条数
+                        //首次不执行
+                        if(!first){
+                            getData(obj.curr,obj.limit);
+                            //do something
+                        }
+                    }
+                });
+            }
+
+            console.log(JSON.stringify(data));
+        }
+    });
+
+});
+
+
+var datacount;
+
+
+var pers = checkPermission();
+
+function getData(curr,limit) {
+    $.ajax({
+        type : 'POST',
+        url : '/api/users/userList',
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            // Accept: "application/json; charset=utf-8",
+            token:getToken()
+        },
+        data : JSON.stringify({
+            currentPage:curr,
+            pageSize:limit,
+			name:$("#username").val(),
+            nickName:$("#nickname").val(),
+            status:$("#status").val()
+        }),
+        success : function(data) {
+            if(data.code=="200"){
+                datacount=data.data.total;
+                var dataList=data.data.list;
+                $("#tbody").empty();
+                $.each(dataList,function(i,n){
+
+                    $("#tbody").append('<tr id="user_'+n.userId+'">');
+                    $("#tbody").append('<td>'+getMsg(n.username)+'</td>');
+                    $("#tbody").append('<td>'+getMsg(n.nickName)+'</td>');
+                    $("#tbody").append('<td>'+getMsg(n.telephone)+'</td>');
+                    $("#tbody").append('<td>'+getMsg(getDict("userStatus")[n.status])+'</td>');
+
+                    var href = "updateUser.html?id=" + n.userId;
+                    var edit = buttonEdit(href, "sys:user:add", pers);
+                    var del = buttonDel(n.userId, "sys:user:del", pers);
+                    $("#tbody").append('<td>'+edit+del+'</td>');
+                    $("#tbody").append("</tr>");
+                });
+            }
+            console.log(JSON.stringify(data));
+        }
+    });
+}
+
+    function del(id){
+        layer.confirm('确定要删除吗？', {
+            btn : [ '确定', '取消' ]
+        }, function() {
+            $.ajax({
+                type : 'delete',
+                url : '/api/dicts/'+id,
+                headers: {
+                    // Accept: "application/json; charset=utf-8",
+                    token:getToken()
+                },
+                success : function(data) {
+                    layer.msg("删除成功");
+                    getData(tableobj.curr,tableobj.limit);
+                }
+            });
+
+            layer.close(1);
+        });
+    }
+
+    $("#searchBt").click(function(){
+        getData(0,10);
+    });
+</script>

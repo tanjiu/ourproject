@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>人才求职</title>
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="Ckeditor/ckeditor/ckeditor.js"></script>
+</head>
+<body>
+<form>
+    <p>姓名</p>  <input type="text" name="name" id="name"><br/>
+    <p>性别</p> <input type="radio" name="sex" value="男"/> 男<br/>
+    <input type="radio" name="sex" value="女"/> 女<br/><br/>
+    <p>年龄</p>  <input type="text" name="age" id="age"><br/>
+    <p>联系方式</p>  <input type="text" name="tel" id="tel"><br/>
+    <p>学历</p> <select id="xueli">
+    <option value="初中">初中</option>
+    <option value="高中">高中</option>
+    <option value="中专">中专</option>
+    <option value="专科">专科</option>
+    <option value="本科">本科</option>
+    <option value="研究生及以上">研究生及以上</option>
+</select>
+    <p>求职方向</p>  <input type="text" name="qiuzhifangxiang" id="qiuzhifangxiang"><br/>
+    <p>工作地点</p>  <input type="text" name="gongzuodidian" id="gongzuodidian"><br/>
+    <p>个人简介</p> <textarea id='gerenjianjie' name="gerenjianjie"></textarea>
+    <button type="button" value="提交" id="sub">提交</button>
+</form>
+</body>
+</html>
+<script>
+    CKEditor = CKEDITOR.replace('gerenjianjie');
+    $(function () {
+        $("#sub").click(function () {
+            var data = $("form").serialize();
+            var name = $("#name").val();
+            var sex=$('input:radio:checked').val();
+            var age = $("#age").val();
+            var tel = $("#tel").val();
+            var xueli = $("#xueli").val();
+            var qiuzhifangxiang = $("#qiuzhifangxiang").val();
+            var gongzuodidian = $("#gongzuodidian").val();
+
+            var gerenjianjie = CKEDITOR.instances.gerenjianjie.getData();
+
+            var Data_edit = {
+                name: name,
+                sex: sex,
+                age: age,
+                tel: tel,
+                xueli: xueli,
+                qiuzhifangxiang: qiuzhifangxiang,
+                gongzuodidian: gongzuodidian,
+                gerenjianjie: gerenjianjie,
+                shenhe:"false"
+            };
+
+            $.ajax({
+                type: 'post',
+                url: "http://localhost:8081/rcqzc/insertapc",
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                cache: false,
+                data: JSON.stringify(Data_edit),
+                success: function (data) {//返回json结果
+                    window.location.reload();
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        });
+    });
+</script>

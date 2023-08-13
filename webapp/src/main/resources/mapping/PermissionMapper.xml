@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.i1314i.ourproject.mapper.PermissionMapper">
+
+	<resultMap id="BaseResultMap" type="com.i1314i.ourproject.po.shiro.Permission">
+		<id column="parent_id" jdbcType="INTEGER" property="parentId" />
+		<id column="create_time" jdbcType="VARCHAR" property="createTime" />
+		<result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+	</resultMap>
+	<sql id="permissionTableName">
+		sys_permission
+	</sql>
+
+	<sql id="permissionRoleTableName">
+		sys_role_permission
+	</sql>
+
+
+	<select id="listAll" resultMap="BaseResultMap">
+		select * from <include refid="permissionTableName"/> t order by t.sort
+	</select>
+
+	<select id="listParents" resultMap="BaseResultMap">
+		select * from <include refid="permissionTableName"/> t where t.type = 1 order by t.sort
+	</select>
+
+	<select id="listByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select distinct p.* from <include refid="permissionTableName"/>  p inner join <include refid="permissionRoleTableName"/> rp on p.id = rp.permission_id inner join sys_role_user ru on ru.role_id = rp.role_id where ru.user_id = #{userId} order by p.sort
+	</select>
+
+
+	<select id="listByRoleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select p.* from <include refid="permissionTableName"/> p inner join <include refid="permissionRoleTableName"/>  rp on p.id = rp.permission_id where rp.role_id = #{roleId} order by p.sort
+	</select>
+
+	<select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select * from <include refid="permissionTableName"/> t where t.id = #{id}
+	</select>
+
+	<insert id="save" parameterType="com.i1314i.ourproject.po.shiro.Permission">
+		insert into  <include refid="permissionTableName"/> (parent_id, name, css, href, type, permission, sort) values(#{parentId}, #{name}, #{css}, #{href}, #{type}, #{permission}, #{sort})
+	</insert>
+
+	<update id="update" parameterType="com.i1314i.ourproject.po.shiro.Permission">
+		update <include refid="permissionTableName"/> t set parent_id = #{parentId}, name = #{name}, css = #{css}, href = #{href}, type = #{type}, permission = #{permission}, sort = #{sort} where t.id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from
+			<include refid="permissionTableName"/>
+		where id = #{id}
+	</delete>
+
+	<delete id="deleteByParentId" parameterType="java.lang.Long">
+		delete from <include refid="permissionTableName"/> where parent_id = #{id}
+	</delete>
+
+	<delete id="deleteRolePermission"   parameterType="java.lang.Long">
+		delete from <include refid="permissionRoleTableName"/> where permission_id = #{permissionId}
+	</delete>
+
+
+
+	<select id="findUrlPermissionList" resultMap="BaseResultMap">
+		select * from
+		<include refid="permissionTableName"/>
+		  WHERE type= 1;
+
+	</select>
+</mapper>
